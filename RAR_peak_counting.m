@@ -1,16 +1,19 @@
-function RAR_peak_amp_and_freq_analysis (calc, times)
+function RAR_peak_counting (calc, times)
 
     % iterates through channels and counts peaks at least 1% higher than baseline during zmg only
 	for ch = 1:96
+		
     	[pks, locs] = findpeaks(calc(ch,1:45000),times(1:45000),'MinPeakHeight',1.01,'MinPeakDistance',1);
         pks_per_ch_early(ch) = length(locs);
-        pk_amps_early{ch} = pks;
     end
 
 	% displays mean number of peaks per channel during zmg only
 	mean_num_peaks_per_ch_zmg = mean(pks_per_ch_early);
-	disp("mean number of peaks per channel - zmg:")
+	CI_num_peaks_per_ch_zmg = RAR_confidence_interval(pks_per_ch_early);
+	disp("mean peaks per channel - zmg:");
 	disp(mean_num_peaks_per_ch_zmg);
+	disp("95% CI mean peaks per channel - zmg:");
+	disp(CI_num_peaks_per_ch_zmg);
 
 	% iterates through channels and counts peaks at least 1% higher than baseline during giga1 only
     for ch = 1:96
@@ -21,18 +24,10 @@ function RAR_peak_amp_and_freq_analysis (calc, times)
 
 	% displays mean number of peaks per channel during giga1 only
 	mean_num_peaks_per_ch_giga1 = mean(pks_per_ch_late);
-	disp("mean number of peaks per channel - giga1:")
+	CI_num_peaks_per_ch_giga1 = RAR_confidence_interval(pks_per_ch_late);
+	disp("mean peaks per channel - giga1:")
 	disp(mean_num_peaks_per_ch_giga1);
-
-	% iterates through channels to calculate a ratio of amplitudes after / before giga1
-    for ch = 1:96
-        temp_early = pk_amps_early{ch};
-        temp_late = pk_amps_late{ch};
-    	amplitude_ratio(ch) = mean(temp_late, 'omitnan')/mean(temp_early, 'omitnan');
-    end
-
-	mean_amplitude_ratio = mean(amplitude_ratio,'omitnan');
-	disp("Mean amplitude after GiGA1 / before GiGA1:");
-	disp(mean_amplitude_ratio);
+	disp("95% CI mean peaks per channel - giga1:")
+	disp(CI_num_peaks_per_ch_giga1);
 
 end
