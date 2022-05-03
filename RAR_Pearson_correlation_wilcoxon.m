@@ -32,8 +32,7 @@ function RAR_Pearson_correlation_wilcoxon (data)
 
 		% compare to value UP RIGHT
 		RAR_Pearson_compare(ROI,10);
-
-    end
+	end
 
 	for ROI = 9:78
 		% compare to value RIGHT
@@ -54,7 +53,7 @@ function RAR_Pearson_correlation_wilcoxon (data)
 			RAR_Pearson_compare(ROI,11);
 		end
 
-    end
+	end
 
 	for ROI = 79:88
 
@@ -78,11 +77,11 @@ function RAR_Pearson_correlation_wilcoxon (data)
 			RAR_Pearson_compare(ROI,10);
 		end
 
-    end
+	end
 
 	for ROI = 89:95
 		RAR_Pearson_compare(ROI,1);
-    end
+	end
 
 	control_mean = mean(r_values_control,'omitnan');
 	control_SEM = RAR_sem(r_values_control);
