@@ -8,8 +8,6 @@ function RAR_normalization_ROI_only (metadata_file, raw_acsf, raw_zmg)
 
 	Delta_eleccal = mmxRecord(:,15001:105000); %selecting for just the ZMG portion
 
-	%So this gives you your normalized matrix, which is in terms of electrode numbers. If you want to correlate with ephys, we have to order it in number of channels:
-
 	% So now you have your finalized matrix, but now we need the times that each frame was obtained:
 
 	[~,Times] = cal_times(metadata_file); 

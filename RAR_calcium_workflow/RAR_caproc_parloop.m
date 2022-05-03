@@ -1,6 +1,6 @@
 function RAR_caproc_parloop (radius, eleclocs_file, number_of_tifs, tif_filename_prefix, tif_filename_suffix, last_tif_frames, output_filename)
 
-	load(eleclocs_file);
+	load(eleclocs_file,Eleclocs);
 
 	pi_int = cell(1, number_of_tifs);
 	nFrames = 2040 * ones(1, number_of_tifs);
@@ -13,6 +13,6 @@ function RAR_caproc_parloop (radius, eleclocs_file, number_of_tifs, tif_filename
 	output = cell2mat(pi_int); % this may need to be transposed, (i.e. cell2mat(pi_int');) need to test with the actual data first
 
 	% save workspace to a file
-	save (output_filename);
+	save (output_filename,output);
 
 end
