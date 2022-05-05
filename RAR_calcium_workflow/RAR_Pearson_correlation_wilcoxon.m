@@ -98,7 +98,7 @@ function RAR_Pearson_correlation_wilcoxon (data)
 	p_value = ranksum(r_values_control,r_values_giga1);
 	disp(p_value);
 
-	% save('r_values_control.mat','r_values_control');
-	% save('r_values_giga1.mat','r_values_giga1');
+	save('r_values_control.mat','r_values_control');
+	save('r_values_giga1.mat','r_values_giga1');
 
 end
