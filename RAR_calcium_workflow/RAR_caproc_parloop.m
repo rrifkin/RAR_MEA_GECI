@@ -1,9 +1,15 @@
+% Performs parallel processing of calcium intensity within defined ROIs
+
 function RAR_caproc_parloop (radius, eleclocs_file, number_of_tifs, tif_filename_prefix, tif_filename_suffix, last_tif_frames, output_filename)
 
 	load(eleclocs_file,'-mat','Eleclocs');
 
+	% creates a cell array with 1 row and as many columns as number_of_tifs
 	pi_int = cell(1, number_of_tifs);
+
+	% creates a array with 1 row and as many columns as number_of_tifs, and fills it with the number of frames per tif
 	nFrames = 2040 * ones(1, number_of_tifs);
+	% overwrites the last column with the correct number of frames for the last tif
 	nFrames(number_of_tifs) = last_tif_frames;
 
 	% Run chan_intensity on the first file (which does not have a number)

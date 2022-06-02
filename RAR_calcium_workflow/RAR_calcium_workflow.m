@@ -6,7 +6,7 @@ function RAR_calcium_workflow (radius, eleclocs_file, ACSF_image_directory, ZMG_
 	ACSF_last_tif_frames = 720 ;
 	ZMG_last_tif_frames = 240 ;
 
-	% current path
+	% current path (to which files will be output)
 	current_path = '~/Desktop';
 
 	% Process ACSF raw calcium data
@@ -15,7 +15,6 @@ function RAR_calcium_workflow (radius, eleclocs_file, ACSF_image_directory, ZMG_
 	ACSF_number_of_tifs =  length (ACSF_list_of_tifs) ; % count number of tifs in the directory
 	ACSF_filename_prefix = erase(ACSF_list_of_tifs(1,1).name,".ome.tif"); % extract filename prefix from first element of list of tifs
 	ACSF_output_filename = strcat(current_path, "/", ACSF_filename_prefix, ".mat"); 
-	disp(ACSF_output_filename)
 	RAR_caproc_parloop (radius, eleclocs_file, ACSF_number_of_tifs, ACSF_filename_prefix, ".ome.tif", ACSF_last_tif_frames, ACSF_output_filename) ; 
 
 	% Process ZMG raw calcium data
