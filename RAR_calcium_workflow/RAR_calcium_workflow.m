@@ -26,6 +26,7 @@ function RAR_calcium_workflow (radius, eleclocs_file, ACSF_image_directory, ZMG_
 	RAR_caproc_parloop (radius, eleclocs_file, ZMG_number_of_tifs, ZMG_filename_prefix, ".ome.tif", ZMG_last_tif_frames, ZMG_output_filename) ; 
 
 	% Pearson correlation of of Calcium ROIs
+	cd (current_path);
 	RAR_normalization_ROI_only (ZMG_metadata_file, ACSF_output_filename, ZMG_output_filename);
 	RAR_Pearson_correlation_wilcoxon ("normalized_ROI.mat");
 

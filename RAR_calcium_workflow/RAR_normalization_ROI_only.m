@@ -1,6 +1,10 @@
 function RAR_normalization_ROI_only (metadata_file, raw_acsf, raw_zmg)
 
-	FullRecord = horzcat(raw_acsf,raw_zmg);  %combining the raw ACSF and ZMG raw matrices into one
+	load (raw_acsf, 'output');
+	raw_acsf_output = output;
+	load (raw_zmg, 'output');
+	raw_zmg_output = output;
+	FullRecord = horzcat(raw_acsf_output,raw_zmg_output);  %combining the raw ACSF and ZMG raw matrices into one
 
 	mmx = movmean(FullRecord,[125 125],2); %using a sliding window 125 frames before/after to create normalization matrix
 

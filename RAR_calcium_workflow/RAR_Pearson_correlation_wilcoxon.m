@@ -1,6 +1,9 @@
 % Takes normalized calcium imaging data (in ROI order, not rearranged into MEA channel order) and calculates Pearson correltion coefficient of each ROI compared to its 8 immediate neighbors. This is performed for the pre- and post-GiGA1 epochs.
 
-function RAR_Pearson_correlation_wilcoxon (data)
+function RAR_Pearson_correlation_wilcoxon (input_file)
+
+	load (input_file, 'Delta_eleccal');
+	data = Delta_eleccal;
 
 	% arrays containing the r_values for control and giga1 epochs
 	r_values_control = [];
@@ -89,13 +92,18 @@ function RAR_Pearson_correlation_wilcoxon (data)
 	giga1_mean = mean(r_values_giga1,'omitnan');
 	giga1_SEM = RAR_sem(r_values_giga1);
 
+	disp('Control mean r-value:');
 	disp(control_mean);
+	disp('Control SEM:');
 	disp(control_SEM);
 
+	disp('GIGA1 mean r-value:');
 	disp(giga1_mean);
+	disp('GIGA1 SEM:');
 	disp(giga1_SEM);
 
 	p_value = ranksum(r_values_control,r_values_giga1);
+	disp('p value:')
 	disp(p_value);
 
 	save('r_values_control.mat','r_values_control');
