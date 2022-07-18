@@ -1,19 +1,26 @@
-function RAR_plot_sequential_traces_ephys(x, y, bar_height, output_file)
+% plots multiple channels over a period of time
+
+function RAR_plot_traces(samples, amplitudes, sample_rate, channels, bar_height, output_file)
 
 	offset = 0 ;
     hold on;
-	for channel = 1:96
-		y_offset = y(channel,:) + offset ;
-		plot(x, y_offset);
+	for index = 1:channels
+		y_offset = amplitudes(index,:) + offset ;
+		plot(samples, y_offset);
 		offset = offset - 100 ; 
     end
+
+	tick_interval = (sample_rate * 60); % set a tick mark every 1 minute 
+	minutes = length(samples) / sample_rate / 60 ;
+
+	xlim([0, samples]);
+    ylim([-10000,100]);
+	xticks(0:tick_interval:samples);
+	xticklabels(0:minutes);
 
 	%if bar_height ~= 0
 	%	line([901,1800],[bar_height,bar_height]);
 	%end
-
-	xlim([0, 3600000]);
-    ylim([-10000,100]);
 
     set(gcf, 'Position', [10, 10, 4000, 20000])
 	%set(gcf, 'units','centimeters','PaperSize', [100,100]);
