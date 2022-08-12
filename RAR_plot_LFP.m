@@ -8,7 +8,6 @@ function LFP_data = RAR_plot_LFP (varargin)
     for i = 1:nargin
         load (varargin{i});
         LFP_data = [LFP_data, seizure_downsampled];
-        size (LFP_data)
     end
 
 end
