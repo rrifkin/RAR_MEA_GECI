@@ -13,7 +13,7 @@ function RAR_ephys_workflow (varargin)
     % Filter and downsample remaining files; save LFP filename
     for i = 2:nargin
         [ ~ , current_filename, ~ ] = fileparts(varargin{i});
-        DownSamplingAndDetectMUA('seizure_recording', varargin{i}, 'baseline_recording', varargin{1},'T', [0 1800],'T_baseline',[0 60], 'rms_estimation', 'median', 'savefile', current_filename);
+        DownSamplingAndDetectMUA('seizure_recording', varargin{i}, 'baseline_recording', varargin{1},'T', [0],'T_baseline',[0 60], 'rms_estimation', 'median', 'savefile', current_filename);
         current_filename = strcat('LFPDownSampled', current_filename, '.mat');
         LFP_filenames = [LFP_filenames, current_filename];
     end
