@@ -20,7 +20,11 @@ function RAR_ephys_workflow (varargin)
 
     % Load and concatenate LFP data in chronological order based on
     % filenames saved above
-    LFP_data = RAR_plot_LFP (LFP_filenames{:});
+    LFP_data = [];
+    for i = 1:LFP_filenames
+        load (LFP_filenames{i});
+        LFP_data = [LFP_data, seizure_downsampled];
+    end
 
     % Determine the length of the concatenated LFP data and make an array
     % representing each sample

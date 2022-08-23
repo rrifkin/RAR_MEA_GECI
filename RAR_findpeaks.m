@@ -1,5 +1,8 @@
 function RAR_findpeaks (LFP_file, artifact_file, bad_channels_file)
 
+	% parameters 
+	min_peak_height = 1.25
+
     % Import LFP data
     LFP_data = importdata (LFP_file);
 	artifact_samples = importdata(artifact_file)
@@ -20,12 +23,12 @@ function RAR_findpeaks (LFP_file, artifact_file, bad_channels_file)
     LFP_data(bad_channels(:),:) = [] ; 
     num_channels = length(LFP_data(:,1));
 
-    % iterates through channels and counts peaks at least 10% higher than baseline
+    % iterates through channels and counts peaks (as defined by min_peak_height)
 	for ch = 1:num_channels
-    	[amplitudes, indices] = findpeaks(LFP_data(ch,:),LFP_samples(:),'MinPeakHeight',1.1,'MinPeakDistance',1);
-        num_peaks_per_ch(ch) = length(indices)
-        mean_amp_per_ch(ch) = mean(amplitudes)
-		ch
+		disp (ch);
+    	[amplitudes, indices] = findpeaks(LFP_data(ch,:),LFP_samples(:),'MinPeakHeight',min_peak_height,'MinPeakDistance',1);
+        num_peaks_per_ch(ch) = length(indices);
+        mean_amp_per_ch(ch) = mean(amplitudes);
     end
 
 	% write out the data to CSV files
@@ -34,21 +37,5 @@ function RAR_findpeaks (LFP_file, artifact_file, bad_channels_file)
 
 	mean_amps_file = strcat(LFP_file, '_mean_amps.csv');
 	writematrix(mean_amp_per_ch, mean_amps_file);
-
-	% displays mean number of peaks per channel
-	mean_num_peaks_per_ch = mean(num_peaks_per_ch);
-	sem_num_peaks_per_ch = RAR_sem(num_peaks_per_ch);
-	disp("mean number of peaks per channel:")
-	disp(mean_num_peaks_per_ch)
-	disp("SEM number of peaks per channel:")
-	disp(sem_num_peaks_per_ch)
-
-	% displays mean amplitude of peaks per channel
-	mean_amp_all_ch = mean(mean_amp_per_ch);
-	sem_amp_all_ch = RAR_sem(mean_amp_per_ch);
-	disp("mean amplitude of peaks per channel:")
-	disp(mean_amp_all_ch)
-	disp("SEM amplitude of peaks per channel:")
-	disp(sem_amp_all_ch)
 
 end
