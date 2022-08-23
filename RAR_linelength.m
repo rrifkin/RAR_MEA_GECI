@@ -1,7 +1,4 @@
-function RAR_findpeaks (LFP_file, artifact_file, bad_channels_file)
-
-	% parameters 
-	min_peak_height = 1.25
+function RAR_linelength (LFP_file, artifact_file, bad_channels_file)
 
     % Import LFP data
     LFP_data = importdata (LFP_file);
@@ -23,19 +20,21 @@ function RAR_findpeaks (LFP_file, artifact_file, bad_channels_file)
     LFP_data(bad_channels(:),:) = [] ; 
     num_channels = length(LFP_data(:,1));
 
-    % iterates through channels and counts peaks (as defined by min_peak_height)
+    % iterates through channels and determines line length
+	linelength = zeros(num_channels, 1); 
 	for ch = 1:num_channels
-		ch
-    	[amplitudes, indices] = findpeaks(LFP_data(ch,:),LFP_samples(:),'MinPeakHeight',min_peak_height,'MinPeakDistance',1);
-        num_peaks(ch) = length(indices);
-        amp_peaks(ch) = mean(amplitudes);
+		initial_amplitude = LFP_data(ch,1);
+		for sample = 2:LFP_samples
+    		current_amplitude = LFP_data(ch,sample);
+			diff = abs(current_amplitude - initial_amplitude);
+			linelength(ch) = linelength(ch) + diff; 
+			initial_amplitude = current_amplitude; 
     end
 
     % calculates mean number of peaks per channel
-	mean_num_peaks = mean(num_peaks);
-    mean_amp_peaks = mean(amp_peaks);
-	output_array = ["mean number of peaks per channel", mean_num_peaks; "mean amplitude of peaks", mean_amp_peaks];
-	output_file = strcat(LFP_file, '_findpeaks.csv');
+	mean_linelength = mean(linelength);
+	output_array = ["mean linelength per channel", mean_linelength];
+	output_file = strcat(LFP_file, '_linelength.csv');
 	writematrix(output_array, output_file);
 
 end
