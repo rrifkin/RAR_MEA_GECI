@@ -44,4 +44,7 @@ function RAR_plot_traces(samples, amplitudes, sample_rate, channels, output_file
 	ax.FontSize = 6;
 	fig.Position = [0, 0, 8000, 100000];
 
-	exportgraphics(fig,output_file, 'ContentType', 'vector');
+	if exist ('output_file','var') == 1
+		disp ('true')
+		exportgraphics(fig, output_file, 'ContentType', 'vector');
+	end
