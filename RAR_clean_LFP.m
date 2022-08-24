@@ -44,6 +44,7 @@ function RAR_clean_LFP (input_file)
     num_channels = length(LFP_data(:,1));
 
     % plot the cleaned data as a sanity check
-	RAR_plot_traces (LFP_samples, LFP_data, 2000, num_channels);
+    clean_plot_file = strcat(input_file, "_clean.pdf");
+	RAR_plot_traces (LFP_samples, LFP_data, 2000, num_channels, clean_plot_file);
 
 end
