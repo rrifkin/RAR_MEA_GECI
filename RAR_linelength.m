@@ -1,5 +1,8 @@
 function RAR_linelength (LFP_file, artifact_file, bad_channels_file)
 
+    % Parameters
+    sample_rate = 2000; 
+
     % Import LFP data
     LFP_data = importdata (LFP_file);
 	artifact_samples = importdata(artifact_file);
@@ -11,9 +14,13 @@ function RAR_linelength (LFP_file, artifact_file, bad_channels_file)
     LFP_samples = [1:LFP_length];
     num_channels = length(LFP_data(:,1));
 
-    % delete selected time ranges (columns) from LFP_data
+    % Delete selected time ranges (columns) from LFP_data
+    % Also records total length of artifact (in samples) for normalization
+    total_artifact_length = 0;
     for i=1:length(artifact_samples(:,1))
         LFP_data(:,artifact_samples(i,1):artifact_samples(i,2)) = NaN;
+        current_artifact_length = artifact_samples(i,2) - artifact_samples(i,1);
+        total_artifact_length = total_artifact_length + current_artifact_length; 
     end
 
     % delete selected channels (rows) from LFP_data
@@ -34,9 +41,17 @@ function RAR_linelength (LFP_file, artifact_file, bad_channels_file)
         end
     end
 
-    % calculates mean number of peaks per channel
+    % Corrects LFP length for deleted artifact and converts to seconds
+    corrected_LFP_length = LFP_length - total_artifact_length;
+    corrected_LFP_length = corrected_LFP_length / sample_rate; 
+
+    % Calculates mean number of peaks per channel
 	mean_linelength = mean(linelength);
-	output_array = ["mean linelength per channel", mean_linelength];
+
+    % Normalizes for length of non-artifact recording in seconds
+    mean_linelength = mean_linelength / corrected_LFP_length; 
+
+	output_array = ["mean linelength per channel per non-artifact second", mean_linelength];
 	output_file = strcat(LFP_file, '_linelength.csv');
 	writematrix(output_array, output_file);
 
