@@ -3,6 +3,18 @@ function RAR_linelength (LFP_file, artifact_file, bad_channels_file)
     % Parameters
     sample_rate = 2000; 
 
+    % If no command line arguments, get files via GUI
+    if exist ('LFP_file','var') == 0
+        [input_file, input_path] = uigetfile();
+        LFP_file = [input_path, input_file];
+
+        [input_file, input_path] = uigetfile();
+        artifact_file = [input_path, input_file];
+
+        [input_file, input_path] = uigetfile();
+        bad_channels_file = [input_path, input_file];
+	end
+
     % Import LFP data
     LFP_data = importdata (LFP_file);
 	artifact_samples = importdata(artifact_file);
