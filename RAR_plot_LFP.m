@@ -1,8 +1,8 @@
-% Main script for processing a multielectrode recording experiment.
-% Accepts an arbitrary number of .NS5 files (in chronological order) and
-% filters / downsamples them into LFP and MUA files; then plots the LFP data.
+% Accepts an arbitrary number of .NS5 files (in chronological order), 
+% downsamples them to 2 kHz to produce an LFP file; then plots the LFP data.
+% Also saves a band-pass filtered MUA file.
 
-function RAR_ephys_workflow (varargin)
+function RAR_plot_LFP (varargin)
 
     % Filter and downsample the baseline file; save LFP filename
     [ ~ , current_filename, ~ ] = fileparts(varargin{1});
