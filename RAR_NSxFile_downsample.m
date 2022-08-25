@@ -7,9 +7,8 @@ function [LFP_data, MUA_data] = RAR_NSxFile_downsample (filename)
 	nsx = NSxFile('filename', filename);
 	nsx.read();
 
-	raw_data = double(nsx.data{:});
-
-	class(raw_data)
+	raw_data = double(cell2mat(nsx.data));
+	num_channels = length(raw_data(:,1));
 
 	% Construct window-based, 512th order, 2-50Hz bandpass FIR filter
 	[b_lp50, a_lp50] = fir1(512,[2,50]/(30000/2));
@@ -19,13 +18,18 @@ function [LFP_data, MUA_data] = RAR_NSxFile_downsample (filename)
 
 	% Obtain 2-50Hz bandpass filter data
 	disp ('Filtering the LFP data');
-	LFP_data = filtfilt(b_lp50, a_lp50, raw_data);
+	for i = 1:num_channels
+		i
+		LFP_data(i,:) = filtfilt(b_lp50, a_lp50, raw_data(i,:));
+	end
 
 	% Obtain 500-5kHz bandpass filter data
 	disp ('Filtering the MUA data');
-	MUA_data = filtfilt(b_lp5k, a_lp5k, raw_data);
+	for i = 1:num_channels
+		i
+		MUA_data(i,:) = filtfilt(b_lp5k, a_lp5k, raw_data(i,:));
+	end
 
-	
 	LFP_filename = strcat(filename(1:end-4), '_LFP.mat');
 	save(LFP_filename, LFP_data);
 
