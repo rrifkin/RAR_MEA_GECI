@@ -2,7 +2,7 @@
 % downsamples them to 2 kHz to produce an LFP file; then plots the LFP data.
 % Also saves a band-pass filtered MUA file.
 
-function RAR_plot_LFP (varargin)
+function RAR_NPMK_downsample_and_plot (varargin)
 
     % Filter and downsample the baseline file; save LFP filename
     [ ~ , current_filename, ~ ] = fileparts(varargin{1});
