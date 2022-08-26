@@ -11,7 +11,6 @@ function [downsampled_LFP_data, MUA_data] = RAR_NSxFile_filter (input_file)
 
 	% Create an NSxFile object and read the data from the input file
 	nsx = NSxFile('filename', input_file);
-	% nsx.useRAM = false; % to prevent out of memory crashes, but slower
 	nsx.read('channel', channels);
 	raw_data = double(cell2mat(nsx.data));
 
@@ -30,14 +29,14 @@ function [downsampled_LFP_data, MUA_data] = RAR_NSxFile_filter (input_file)
 	save(LFP_filename, downsampled_LFP_data);
 
 	% Filter MUA data
-	[b_MUA, a_MUA] = fir1(1024, MUA_band / (nsx.Fs / 2));
+	%[b_MUA, a_MUA] = fir1(1024, MUA_band / (nsx.Fs / 2));
 	MUA_data = nan(length(channels), length(raw_data(1,:)));
-	disp ('Filtering the MUA data, channel...');
-	for i = channels
-		disp(i);
-		MUA_data(i,:) = filtfilt(b_MUA, a_MUA, raw_data(i,:));
-	end
-	MUA_filename = strcat(input_file(1:end-4), '_NSxFile_MUA.mat');
-	save(MUA_filename, MUA_data);
+	% disp ('Filtering the MUA data, channel...');
+	% for i = channels
+	% 	disp(i);
+	% 	MUA_data(i,:) = filtfilt(b_MUA, a_MUA, raw_data(i,:));
+	% end
+	% MUA_filename = strcat(input_file(1:end-4), '_NSxFile_MUA.mat');
+	% save(MUA_filename, MUA_data);
 
 end
