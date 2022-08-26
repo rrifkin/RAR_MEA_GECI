@@ -7,8 +7,8 @@ function RAR_plot_LFP (varargin)
     % Concatenate LFP data into a single array
 	concatenated_LFP_data = [];
     for i = 1:nargin
-		load(varargin{i});
-		concatenated_LFP_data = [concatenated_LFP_data, seizure_downsampled];
+		current_LFP_data = importdata(varargin{i});
+		concatenated_LFP_data = [concatenated_LFP_data, current_LFP_data];
     end
 
     % Determine the length of the concatenated LFP data and make an array
