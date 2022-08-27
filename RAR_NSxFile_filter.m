@@ -19,6 +19,7 @@ function [downsampled_LFP_data, MUA_data] = RAR_NSxFile_filter (input_file)
 	downsample_factor = nsx.Fs / output_sample_rate;
 	filtered_LFP_data = nan(length(channels), length(raw_data(1,:)));
 	downsampled_LFP_data = nan(length(channels), length(raw_data(1,:)) / downsample_factor);
+
 	disp ('Filtering and downsampling the LFP data, channel...');
 	for i = channels
 		disp (i);
@@ -26,7 +27,7 @@ function [downsampled_LFP_data, MUA_data] = RAR_NSxFile_filter (input_file)
 		downsampled_LFP_data(i,:) = downsample(filtered_LFP_data(i,:),downsample_factor); 
 	end
 	LFP_filename = strcat(input_file(1:end-4), '_NSxFile_LFP.mat');
-	save(LFP_filename, downsampled_LFP_data);
+	save(LFP_filename, 'downsampled_LFP_data');
 
 	% Filter MUA data
 	%[b_MUA, a_MUA] = fir1(1024, MUA_band / (nsx.Fs / 2));
@@ -37,6 +38,6 @@ function [downsampled_LFP_data, MUA_data] = RAR_NSxFile_filter (input_file)
 	% 	MUA_data(i,:) = filtfilt(b_MUA, a_MUA, raw_data(i,:));
 	% end
 	% MUA_filename = strcat(input_file(1:end-4), '_NSxFile_MUA.mat');
-	% save(MUA_filename, MUA_data);
+	% save(MUA_filename, 'MUA_data');
 
 end
