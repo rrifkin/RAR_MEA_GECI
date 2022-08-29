@@ -11,7 +11,7 @@ function [downsampled_LFP_data, MUA_data] = RAR_NSxFile_filter (input_file)
 
 	% Create an NSxFile object and read the data from the input file
 	nsx = NSxFile('filename', input_file);
-	nsx.useRAM = false
+	% nsx.useRAM = false
 	nsx.read('channel', channels);
 	raw_data = double(cell2mat(nsx.data));
 
