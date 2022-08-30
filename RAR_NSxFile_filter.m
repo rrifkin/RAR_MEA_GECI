@@ -19,7 +19,7 @@ function [downsampled_LFP_data, MUA_data] = RAR_NSxFile_filter (input_file)
 	[b_LFP, a_LFP] = fir1(1024, LFP_band / (nsx.Fs / 2));
 	downsample_factor = nsx.Fs / output_sample_rate;
 	filtered_LFP_data = nan(length(channels), length(raw_data(1,:)));
-	downsampled_LFP_data = nan(length(channels), length(raw_data(1,:)) / downsample_factor);
+	downsampled_LFP_data = nan(length(channels), ceil(length(raw_data(1,:)) / downsample_factor));
 
 	disp ('Filtering and downsampling the LFP data, channel...');
 	for i = channels
