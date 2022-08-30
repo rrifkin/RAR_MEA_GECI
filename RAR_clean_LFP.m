@@ -1,6 +1,7 @@
-% Accepts variable number of .mat files containing downsampled LFP data,
-% and concatenates and analyzes them. The files are assumed to be in
-% chronological order.
+% Accepts .mat file containing downsampled LFP data, plots the data,
+% and allows the user to interactively select artifact regions. Outputs 
+% .csv files containing artifact timepoints (assumes 2000 Hz) and bad
+% channels, and saves a plot of the cleaned data for sanity checking.
 
 function RAR_clean_LFP (input_file)
 
