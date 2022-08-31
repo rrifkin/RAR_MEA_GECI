@@ -34,7 +34,7 @@ function RAR_linelength (LFP_file, artifact_file, bad_channels_file, offslice_ch
 
     % delete selected channels (rows) from LFP_data
     excluded_channels = [bad_channels, offslice_channels]; 
-    excluded_channels = unique(excluded_channels); 
+    excluded_channels = unique(excluded_channels);
     LFP_data(excluded_channels(:),:) = [] ; 
 
     % Calculates linelength
