@@ -1,20 +1,5 @@
 function RAR_linelength (LFP_file, artifact_file, bad_channels_file, offslice_channels_file)
 
-    % If no command line arguments, get files via GUI
-    if exist ('LFP_file','var') == 0
-        [input_file, input_path] = uigetfile('*.mat', 'Select the LFP file');
-        LFP_file = [input_path, input_file];
-
-        [input_file, input_path] = uigetfile('*.csv', 'Select the artifact file');
-        artifact_file = [input_path, input_file];
-
-        [input_file, input_path] = uigetfile('*.csv', 'Select the bad channels file');
-        bad_channels_file = [input_path, input_file];
-
-        [input_file, input_path] = uigetfile('*.csv', 'Select the offslice channels file');
-        offslice_channels_file = [input_path, input_file];
-    end
-
     % Import LFP data
     LFP_data = importdata (LFP_file);
 	artifact_samples = importdata(artifact_file);
