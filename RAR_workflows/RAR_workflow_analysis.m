@@ -20,7 +20,7 @@ function RAR_workflow_analysis (input_path)
 		bad_channels_file = strcat(artifact_file(1:end-21), '_bad_channels.csv');
 		offslice_channels_file = strcat(artifact_file(1:end-21), '_offslice_channels.csv');
 		LFP_file = strcat(artifact_file(1:end-21), '_NSxFile_LFP.mat')
-		%RAR_linelength (LFP_file, artifact_file, bad_channels_file, offslice_channels_file);
+		RAR_linelength (LFP_file, artifact_file, bad_channels_file, offslice_channels_file);
 		RAR_findpeaks (LFP_file, artifact_file, bad_channels_file, offslice_channels_file);
 	end
 
