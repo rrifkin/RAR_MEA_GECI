@@ -31,7 +31,15 @@ function [downsampled_LFP_data, MUA_data] = RAR_NSxFile_filter (input_file)
 	% save(LFP_filename, 'downsampled_LFP_data', '-v7.3');
 
 	% Filter and detect spikes in MUA data
-	nsx.detectSpikes('filterType', 'FIR', 'filterOrder', 1024, 'bandpass', MUA_band, 'channels', channels);
+
+	for c = 1:96 % or whatever channel numbers you're processing
+		try
+			nsx.detectSpikes('filterType', 'FIR', 'filterOrder', 1024, 'bandpass', MUA_band, 'channels', c);
+		catch err
+			disp(['Error on chan ' num2str(c) ': ' err.message])
+		end
+	end
+
 	% and now export them to a UMS2k style structure
 	MUA_data = nsx.exportSpikesUMS();
 	nsx.close();
