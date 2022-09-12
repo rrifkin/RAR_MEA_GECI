@@ -39,7 +39,7 @@ function [downsampled_LFP_data, MUA_data] = RAR_NSxFile_filter (input_file)
 			disp(['Error on chan ' num2str(c) ': ' err.message])
 			[b_MUA, a_MUA] = fir1(1024, MUA_band / (nsx.Fs / 2));
 			filtered_data = filtfilt(b_MUA, a_MUA, raw_data(c,:));
-			error_filename = strcat(input_file(1:end-4), '_NSxFile_MUA_error_data.mat');
+			error_filename = strcat(input_file(1:end-4), '_NSxFile_MUA_error_channel_', c, '.mat');
 			save(error_filename, 'filtered_data');
 		end
 	end
