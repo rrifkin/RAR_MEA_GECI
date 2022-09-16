@@ -6,7 +6,7 @@ function RAR_spike_sort (input_file)
 	MUA_data = importdata(input_file);
 
 	[path, filename, ~] = fileparts(input_file);
-	output_path = strcat (path, '/', filename, '/sorted_spikes/');
+	output_path = strcat (path, '/', filename, '/');
 	mkdir(output_path);
 
 	for c = 1:length(MUA_data)

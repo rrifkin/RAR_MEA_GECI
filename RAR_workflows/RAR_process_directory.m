@@ -18,7 +18,7 @@ function RAR_process_directory (input_path)
 
 	for i = 1:length(file_paths)
 		current_file = file_paths{i}
-		RAR_NSxFile_filter(current_file);
+		%RAR_NSxFile_filter(current_file);
 		MUA_file = strcat(current_file(1:end-4), '_NSxFile_MUA_spikes.mat');
 		RAR_spike_sort (MUA_file);
 	end
