@@ -17,20 +17,20 @@ function [downsampled_LFP_data, MUA_data] = RAR_NSxFile_filter (input_file)
 	nsx.read('channel', channels);
 	raw_data = double(cell2mat(nsx.data));
 
-	% Filter and downsample LFP data 
-	[b_LFP, a_LFP] = fir1(1024, LFP_band / (nsx.Fs / 2));
-	downsample_factor = nsx.Fs / output_sample_rate;
-	filtered_LFP_data = nan(length(channels), length(raw_data(1,:)));
-	downsampled_LFP_data = nan(length(channels), ceil(length(raw_data(1,:)) / downsample_factor));
+	% % Filter and downsample LFP data 
+	% [b_LFP, a_LFP] = fir1(1024, LFP_band / (nsx.Fs / 2));
+	% downsample_factor = nsx.Fs / output_sample_rate;
+	% filtered_LFP_data = nan(length(channels), length(raw_data(1,:)));
+	% downsampled_LFP_data = nan(length(channels), ceil(length(raw_data(1,:)) / downsample_factor));
 
-	disp ('Filtering and downsampling the LFP data, channel...');
-	for i = channels
-		disp (i);
-		filtered_LFP_data(i,:) = filtfilt(b_LFP, a_LFP, raw_data(i,:));
-		downsampled_LFP_data(i,:) = downsample(filtered_LFP_data(i,:),downsample_factor); 
-	end
-	LFP_filename = strcat(input_file(1:end-4), '_NSxFile_LFP.mat');
-	save(LFP_filename, 'downsampled_LFP_data', '-v7.3');
+	% disp ('Filtering and downsampling the LFP data, channel...');
+	% for i = channels
+	% 	disp (i);
+	% 	filtered_LFP_data(i,:) = filtfilt(b_LFP, a_LFP, raw_data(i,:));
+	% 	downsampled_LFP_data(i,:) = downsample(filtered_LFP_data(i,:),downsample_factor); 
+	% end
+	% LFP_filename = strcat(input_file(1:end-4), '_NSxFile_LFP.mat');
+	% save(LFP_filename, 'downsampled_LFP_data', '-v7.3');
 
 	% Filter and detect spikes in MUA data
 	nsx.detectSpikes('filterType', 'FIR', 'filterOrder', 1024, 'bandpass', MUA_band, 'channels', channels);
@@ -41,6 +41,6 @@ function [downsampled_LFP_data, MUA_data] = RAR_NSxFile_filter (input_file)
 
 	% Save the spike data
 	MUA_filename = strcat(input_file(1:end-4), '_NSxFile_MUA_spikes.mat');
-	save(MUA_filename, 'MUA_data');
+	save(MUA_filename, 'MUA_data', '-v7.3');
 
 end
