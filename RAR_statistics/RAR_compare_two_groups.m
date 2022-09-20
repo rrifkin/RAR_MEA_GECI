@@ -13,7 +13,7 @@ function RAR_compare_two_groups (csv_file, units)
 	ax = axes('linewidth',1, 'fontweight','bold', 'fontsize', 14);
 	hold (ax, 'on');
 
-	bar_chart = bar(ax, names, means, 'linewidth',1.5, 'barwidth',1);
+	bar_chart = bar(ax, names, means, 'linewidth',1.5);
 	ax.YLabel.String = units; 
 	
 	pbaspect([1,1.5,1]);
