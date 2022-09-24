@@ -9,21 +9,10 @@ function RAR_plot_traces(samples, amplitudes, sample_rate, channels, output_file
 	fig = figure;
 	ax = axes(fig);
 
-	% plot sequential traces in ascending order
-	hold (ax, 'on'); 
-    plot(samples,amplitudes(1,:))
-    offset = 0 ; % is incremented to make channels appear above each other
-	for index = 1:channels
-		y_offset = amplitudes(index,:) + offset ;
-		plot(samples, y_offset);
-        offset = offset + vertical_increment ; 
-    end
-	hold (ax, 'off'); 
-
 	% calculate x-axis properties
 	tick_interval = (sample_rate * 60); % set a tick mark every 1 minute 
 	num_samples = length (samples);
-	minutes = num_samples / sample_rate / 60 ;
+	minutes = num_samples / (sample_rate * 60);
 
 	% calculate y-axis properties
 	y_minimum = -1 * vertical_increment;
@@ -39,11 +28,36 @@ function RAR_plot_traces(samples, amplitudes, sample_rate, channels, output_file
 	ax.YLim = [y_minimum,y_maximum];
 	ax.YTick = 0:vertical_increment:y_maximum_tick;
 	ax.YTickLabel = 1:channels;
-
-	% set axis and figure properties
 	ax.FontSize = 6;
-	fig.Position = [0, 0, 8000, 100000];
+	fig_ratio = (channels / 10 ) / minutes
+	ax.PlotBoxAspectRatio = [1, fig_ratio, 1];
+
+	% set figure properties
+	fig.Visible = 'on';
+	fig.Renderer = 'painters';
+	fig.Units = 'normalized'; 
+	fig.Position = [0, 0, 1, fig_ratio];
+	
+	% set 'paper' properties
+	fig.PaperPositionMode = 'manual';
+	fig.PaperUnits = 'centimeters';
+	fig.PaperPosition = [0, 0, minutes / 3, channels / 10];
+	fig.PaperSize = [minutes /3 , channels / 10];
+
+	% plot sequential traces in ascending order
+	hold (ax, 'on'); 
+	plot(samples,amplitudes(1,:))
+	offset = 0 ; % is incremented to make channels appear above each other
+	for index = 1:channels
+		y_offset = amplitudes(index,:) + offset ;
+		plot(samples, y_offset);
+		offset = offset + vertical_increment ; 
+	end
+	hold (ax, 'off'); 
 
 	if exist ('output_file','var') == 1
-		exportgraphics(fig, output_file, 'ContentType', 'vector');
+		print('-painters', '-dpdf', fig, output_file);
 	end
+
+
+	
