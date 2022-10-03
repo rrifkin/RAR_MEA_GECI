@@ -58,10 +58,11 @@ function RAR_workflow_plots (input_path)
 
 		RAR_plot_MUA (ACSF_file);
 		if exist (GiGA1_file,'file') == 2
-			RAR_plot_MUA (GiGA1_file);
+			files_to_plot = [files_to_plot; GiGA1_file];
 		end
 		if exist (DMSO_file,'file') == 2
-			RAR_plot_MUA (DMSO_file);
+			files_to_plot = [files_to_plot; DMSO_file];
 		end
+		RAR_plot_MUA(files_to_plot);
 	end
 end
