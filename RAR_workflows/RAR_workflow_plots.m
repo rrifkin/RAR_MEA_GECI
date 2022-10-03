@@ -47,7 +47,7 @@ function RAR_workflow_plots (input_path)
 		RAR_plot_LFP (files_to_plot{:});
 	end
 
-	% Iterate through all files and do individual MUA plots
+	% Iterate through all files and do MUA plots
 	for i = 1:length(file_paths)
 		disp(i);
 		folder = file_paths{i};
