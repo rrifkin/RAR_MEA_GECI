@@ -43,7 +43,7 @@ function RAR_plot_MUA (varargin)
 		 current_suffix = char(split_products(end));
 		 PDF_filename = strcat(PDF_filename, "," , current_suffix);
 	 end
-	 PDF_filename = strcat(PDF_filename, '.pdf');
+	 PDF_filename = strcat(PDF_filename, '_NSxFile_MUA.pdf');
 
 	MUA_samples = 1:length(concatenated_MUA_data(1,:))
 
