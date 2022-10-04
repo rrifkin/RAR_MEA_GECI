@@ -57,7 +57,7 @@ function RAR_workflow_plots (input_path)
 		GiGA1_file = strcat(folder, ', ZMG-GiGA1.ns5');
 		DMSO_file = strcat(folder, ', ZMG-DMSO.ns5');
 
-		RAR_plot_MUA (ACSF_file);
+		files_to_plot = {ACSF_file};
 		if exist (GiGA1_file,'file') == 2
 			files_to_plot = [files_to_plot; GiGA1_file];
 		end
