@@ -7,7 +7,7 @@ function RAR_plot_MUA (varargin)
 
 	% Parameters
 	channels = 1:96;
-	output_sample_rate = 10000; 
+	% output_sample_rate = 10000; 
 	MUA_band = [500,5000];
 
 	concatenated_MUA_data = [];
@@ -29,9 +29,9 @@ function RAR_plot_MUA (varargin)
 		for i = channels
 			disp (i);
 			filtered_MUA_data(i,:) = filtfilt(b_MUA, a_MUA, raw_data(i,:));
-			downsampled_MUA_data(i,:) = downsample(filtered_MUA_data(i,:),downsample_factor); 
+			%downsampled_MUA_data(i,:) = downsample(filtered_MUA_data(i,:),downsample_factor); 
 		end
-		concatenated_MUA_data = [concatenated_MUA_data, downsampled_MUA_data];
+		concatenated_MUA_data = [concatenated_MUA_data, filtered_MUA_data];
 	end
 
 	 % Determine the final output PDF filename
