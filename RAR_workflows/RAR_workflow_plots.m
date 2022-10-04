@@ -64,6 +64,8 @@ function RAR_workflow_plots (input_path)
 		if exist (DMSO_file,'file') == 2
 			files_to_plot = [files_to_plot; DMSO_file];
 		end
-		RAR_plot_MUA(files_to_plot);
+
+		disp(files_to_plot)
+		RAR_plot_MUA(files_to_plot{:});
 	end
 end
