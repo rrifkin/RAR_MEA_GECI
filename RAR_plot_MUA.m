@@ -21,9 +21,9 @@ function RAR_plot_MUA (varargin)
 
 		% Filter and downsample MUA data 
 		[b_MUA, a_MUA] = fir1(1024, MUA_band / (nsx.Fs / 2));
-		downsample_factor = nsx.Fs / output_sample_rate;
+		%downsample_factor = nsx.Fs / output_sample_rate;
 		filtered_MUA_data = nan(length(channels), length(raw_data(1,:)));
-		downsampled_MUA_data = nan(length(channels), ceil(length(raw_data(1,:)) / downsample_factor));
+		%downsampled_MUA_data = nan(length(channels), ceil(length(raw_data(1,:)) / downsample_factor));
 
 		disp ('Filtering and downsampling the MUA data, channel...');
 		for i = channels
