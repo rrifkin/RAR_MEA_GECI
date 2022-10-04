@@ -1,5 +1,6 @@
-% Recursively searches for .ns5 files and assembles their corresponding filtered and downsampled
-% .mat files into the order of the experiment. Then, makes LFP plots.
+% Recursively searches for .ns5 files and assembles their corresponding filtered
+%  and downsampled .mat files into the order of the experiment, then makes
+% LFP plots. It then assembles the raw .ns5 files and makes MUA band plots.
 
 function RAR_workflow_plots (input_path)
 
