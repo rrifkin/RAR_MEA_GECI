@@ -14,24 +14,25 @@ function RAR_workflow_plots (input_path)
 
 	% Iterate through all files, make sure they meet inclusion and exclusion
 	% criteria, and assemble them into a list of unique folders that contain .ns5 files.
-	file_paths = {};
+	file_stems = {};
 	for i = 1:num_files
-		file_stem = split(file_list(i).name, ',');
-		file_stem = char(strcat(file_stem(1), ',', file_stem(2)));
-		current_path = [file_list(i).folder, '/', file_stem];
+		current_path = [file_list(i).folder, '/', file_list(i).name];
 		if ((contains (current_path, exclude_string) == 0) && (contains(current_path, include_string) == 1))
-			file_paths = [file_paths; current_path];
+			file_stem = split(file_list(i).name, ',');
+			file_stem = char(strcat(file_stem(1), ',', file_stem(2)));
+			current_stem = [file_list(i).folder, '/', file_stem];
+			file_stems = [file_stems; current_stem];
 		end
 	end
-	file_paths = unique(file_paths);
+	file_stems = unique(file_stems);
 
 	% Display the list of files to be processed
-	disp (file_paths);
+	disp (file_stems);
 
 	% Iterate through all files and do LFP plots
-	for i = 1:length(file_paths)
+	for i = 1:length(file_stems)
 		disp(i);
-		folder = file_paths{i};
+		folder = file_stems{i};
 
 		ACSF_file = strcat(folder, ', ACSF_NSxFile_LFP.mat');
 		GiGA1_file = strcat(folder, ', ZMG-GiGA1_NSxFile_LFP.mat');
@@ -49,9 +50,9 @@ function RAR_workflow_plots (input_path)
 	end
 
 	% Iterate through all files and do MUA plots
-	for i = 1:length(file_paths)
+	for i = 1:length(file_stems)
 		disp(i);
-		folder = file_paths{i};
+		folder = file_stems{i};
 
 		ACSF_file = strcat(folder, ', ACSF.ns5');
 		GiGA1_file = strcat(folder, ', ZMG-GiGA1.ns5');
