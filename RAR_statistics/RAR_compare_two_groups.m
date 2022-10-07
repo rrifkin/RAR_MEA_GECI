@@ -2,12 +2,13 @@
 
 function RAR_compare_two_groups (csv_file, units)
 
-	data = readtable(csv_file);
-	means = mean(data.Variables, 'omitnan');
-	SEM = RAR_sem (data.Variables);
-	names = categorical(data.Properties.VariableNames);
+	data = readtable(csv_file)
+	means = mean(data.Variables, 'omitnan')
+	SEM = RAR_sem (data.Variables)
+	names = categorical(data.Properties.VariableNames)
 
-	p = ranksum(data.(1), data.(2))
+	% p = ranksum(data.(1), data.(2))
+	p = signrank (data.(1), data.(2))
 
 	fig = figure(); 
 	ax = axes('linewidth',1, 'fontweight','bold', 'fontsize', 14);
