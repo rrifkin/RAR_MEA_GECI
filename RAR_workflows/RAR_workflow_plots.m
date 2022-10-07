@@ -1,6 +1,6 @@
 % Recursively searches for .ns5 files and assembles their corresponding filtered
-%  and downsampled .mat files into the order of the experiment, then makes
-% LFP plots. It then assembles the raw .ns5 files and makes MUA band plots.
+% and downsampled .mat files into the order of the experiment, then makes
+% LFP plots.
 
 function RAR_workflow_plots (input_path)
 
@@ -47,23 +47,5 @@ function RAR_workflow_plots (input_path)
 		end
 		disp (files_to_plot);
 		RAR_plot_LFP (files_to_plot{:});
-	end
-
-	% Iterate through all files and do MUA plots
-	for i = 1:length(file_stems)
-		disp(i);
-		folder = file_stems{i};
-
-		ACSF_file = strcat(folder, ', ACSF.ns5');
-		GiGA1_file = strcat(folder, ', ZMG-GiGA1.ns5');
-		DMSO_file = strcat(folder, ', ZMG-DMSO.ns5');
-
-		RAR_plot_MUA (ACSF_file);
-		if exist (GiGA1_file,'file') == 2
-			RAR_plot_MUA (GiGA1_file);
-		end
-		if exist (DMSO_file,'file') == 2
-			RAR_plot_MUA (DMSO_file);
-		end
 	end
 end
