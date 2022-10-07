@@ -1,15 +1,21 @@
 
 
-function RAR_compare_two_groups (csv_file, units)
+function RAR_compare_two_groups (csv_file, units, type)
 
 	data = readtable(csv_file)
 	means = mean(data.Variables, 'omitnan')
 	SEM = RAR_sem (data.Variables)
 	names = categorical(data.Properties.VariableNames)
 
-	% p = ranksum(data.(1), data.(2))
-	p = signrank (data.(1), data.(2))
-
+	if strcmp(type, 'unpaired')
+		disp ('Wilcoxon Rank-Sum (Unpaired)')
+		p = ranksum(data.(1), data.(2))
+	end
+	if strcmp(type, 'paired')
+		disp ('Wilcoxon Signed-Rank (Paired)')
+		p = signrank (data.(1), data.(2))
+	end
+	
 	fig = figure(); 
 	ax = axes('linewidth',1, 'fontweight','bold', 'fontsize', 14);
 	hold (ax, 'on');
