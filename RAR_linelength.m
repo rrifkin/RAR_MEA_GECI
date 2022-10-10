@@ -38,9 +38,9 @@ function RAR_linelength (LFP_file, artifact_file, bad_channels_file, offslice_ch
 	writematrix(output_array, output_file);
 
     % Plot actually analyzed data for sanity-checking
-    clean_plot_file = strcat(LFP_file, output_suffix, '_analyzed_data.pdf');
-    LFP_samples = 1:length(LFP_data(1,:));
-    num_channels = length(LFP_data(:,1));
-    RAR_plot_traces (LFP_samples, LFP_data, 2000, num_channels, clean_plot_file);
+    %clean_plot_file = strcat(LFP_file, output_suffix, '_analyzed_data.pdf');
+    %LFP_samples = 1:length(LFP_data(1,:));
+    %num_channels = length(LFP_data(:,1));
+    %RAR_plot_traces (LFP_samples, LFP_data, 2000, num_channels, clean_plot_file);
 
 end
