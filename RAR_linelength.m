@@ -15,6 +15,7 @@ function RAR_linelength (LFP_file, artifact_file, bad_channels_file, offslice_ch
         current_range = artifact_samples(i,1):artifact_samples(i,2);
         artifact_range = [artifact_range, current_range];
     end
+    artifact_range = unique (artifact_range);
     LFP_data(:,artifact_range) = [];
 
     % delete selected channels (rows) from LFP_data
