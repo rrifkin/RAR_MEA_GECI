@@ -33,7 +33,7 @@ function RAR_linelength (LFP_file, artifact_file, bad_channels_file, offslice_ch
 	mean_linelength = mean(linelength);
 
     % Output data to .csv file
-	output_array = ["mean linelength per second per sample", mean_linelength];
+	output_array = ["mean linelength per second per channel", mean_linelength];
 	output_file = strcat(LFP_file(1:end-16), output_suffix, '.csv');
 	writematrix(output_array, output_file);
 
