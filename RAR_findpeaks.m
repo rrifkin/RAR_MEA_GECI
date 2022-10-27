@@ -2,7 +2,7 @@ function RAR_findpeaks (LFP_file, artifact_file, bad_channels_file, offslice_cha
 
     % Parameters
     sample_rate = 2000; 
-    threshold_std = 3;
+    threshold_std = 4;
 
     % Import LFP data
     LFP_data = importdata (LFP_file);
@@ -56,7 +56,7 @@ function RAR_findpeaks (LFP_file, artifact_file, bad_channels_file, offslice_cha
 	mean_freq_peaks = mean(freq_peaks, 'omitnan');
     mean_amp_peaks = mean(amp_peaks, 'omitnan');
 	output_array = ["mean number of peaks per second per channel", mean_freq_peaks; "mean amplitude of peaks", mean_amp_peaks];
-    output_file = strcat(LFP_file(1:end-16), '_findpeaks_v2_max,min.csv');
+    output_file = strcat(LFP_file(1:end-16), '_findpeaks_v3_std4.csv');
     writematrix(output_array, output_file);
 
 end
