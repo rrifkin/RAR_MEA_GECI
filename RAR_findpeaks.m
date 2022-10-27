@@ -2,6 +2,7 @@ function RAR_findpeaks (LFP_file, artifact_file, bad_channels_file, offslice_cha
 
     % Parameters
     sample_rate = 2000; 
+    threshold_std = 5;
 
     % Import LFP data
     LFP_data = importdata (LFP_file);
@@ -32,8 +33,20 @@ function RAR_findpeaks (LFP_file, artifact_file, bad_channels_file, offslice_cha
 
     % iterates through channels and counts peaks
 	for ch = 1:num_channels
-        min_peak_height = mean(LFP_data(ch,:), 'omitnan') + (3 * std(LFP_data(ch,:), 'omitnan'));
-    	[amplitudes, indices] = findpeaks(LFP_data(ch,:),LFP_samples(:),'MinPeakHeight',min_peak_height,'MinPeakDistance',1);
+        min_peak_height = mean(LFP_data(ch,:), 'omitnan') + (threshold_std * std(LFP_data(ch,:), 'omitnan'));
+
+        % find local maxima
+    	[max_amplitudes, max_indices] = findpeaks(LFP_data(ch,:),LFP_samples(:),'MinPeakHeight',min_peak_height,'MinPeakDistance',1);
+        max_amplitudes = abs(max_amplitudes);
+
+        % find local minima by evaluating the inverse (negative) of the data
+        [min_amplitudes, min_indices] = findpeaks(-LFP_data(ch,:),LFP_samples(:),'MinPeakHeight',min_peak_height,'MinPeakDistance',1);
+        min_amplitudes = abs(min_amplitudes);
+
+        % concatenate data from maxima and minima
+        amplitudes = [max_amplitudes, min_amplitudes];
+        indices = [max_indices, min_indices]; 
+
         freq_peaks(ch) = length(indices) / LFP_seconds;
         amp_peaks(ch) = mean(amplitudes, 'omitnan');
     end
@@ -43,7 +56,7 @@ function RAR_findpeaks (LFP_file, artifact_file, bad_channels_file, offslice_cha
 	mean_freq_peaks = mean(freq_peaks, 'omitnan');
     mean_amp_peaks = mean(amp_peaks, 'omitnan');
 	output_array = ["mean number of peaks per second per channel", mean_freq_peaks; "mean amplitude of peaks", mean_amp_peaks];
-    output_file = strcat(LFP_file(1:end-16), '_findpeaks.csv');
+    output_file = strcat(LFP_file(1:end-16), '_findpeaks_v2_max,min.csv');
     writematrix(output_array, output_file);
 
 end
