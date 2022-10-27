@@ -29,10 +29,10 @@ function RAR_clean_LFP (input_file)
 	bad_channels = input ("What are the bad channels? ");
 	close;
 
-	artifact_file = strcat(input_file, '_artifact_samples.csv');
+	artifact_file = strcat(input_file(1:end-16), '_artifact_samples.csv');
 	writematrix(artifact_samples, artifact_file);
 
-	bad_channels_file = strcat(input_file, '_bad_channels.csv');
+	bad_channels_file = strcat(input_file(1:end-16), '_bad_channels.csv');
 	writematrix(bad_channels, bad_channels_file);
 
     % delete selected time ranges (columns) from LFP_data
