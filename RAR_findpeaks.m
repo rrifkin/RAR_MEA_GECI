@@ -45,7 +45,7 @@ function RAR_findpeaks (LFP_file, artifact_file, bad_channels_file, offslice_cha
 
         % concatenate data from maxima and minima
         amplitudes = [max_amplitudes, min_amplitudes];
-        indices = [max_indices, min_indices]; 
+        indices = [max_indices; min_indices]; 
 
         freq_peaks(ch) = length(indices) / LFP_seconds;
         amp_peaks(ch) = mean(amplitudes, 'omitnan');
