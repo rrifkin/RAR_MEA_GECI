@@ -4,11 +4,7 @@
 % (in RAR_NSxFile_filter). Then, the spikes are sorted using UMS2K 
 % (in RAR_spike_sort).
 
-function RAR_process_directory (input_path)
-
-	% Inclusion and exclusion criteria
-	exclude_string = 'EXCLUDE';
-	include_string = 'WT Non-Tumor MEA GiGA1 vs. Vehicle';
+function RAR_process_directory (input_path, include_string, exclude_string)
 
 	% Recursively locate all .ns5 files in the provided directory
 	file_list = dir ([input_path, '/**/*.ns5']);
