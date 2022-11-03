@@ -1,4 +1,4 @@
-function RAR_findpeaks (LFP_file, artifact_file, bad_channels_file, offslice_channels_file)
+function RAR_findpeaks (LFP_file, artifact_file, bad_channels_file, offslice_channels_file, excluded_minutes)
 
     % Parameters
     sample_rate = 2000; 
@@ -10,16 +10,18 @@ function RAR_findpeaks (LFP_file, artifact_file, bad_channels_file, offslice_cha
     bad_channels = readmatrix (bad_channels_file);
     offslice_channels = readmatrix (offslice_channels_file);
 
+    excluded_samples = (excluded_minutes(1) * 60 * sample_rate):(excluded_minutes(end) * 60 * sample_rate)
+
     % Delete selected time ranges (columns) from LFP_data. 
     % artifact_samples is a N x 2 array where N is the number of
     % artifact intervals. These interval ranges are concatenated 
-    % into artifact_range, which is then deleted from LFP_data.
-    artifact_range = [];
+    % into excluded_samples, which is then deleted from LFP_data.
     for i=1:length(artifact_samples(:,1))
         current_range = artifact_samples(i,1):artifact_samples(i,2);
-        artifact_range = [artifact_range, current_range];
+        excluded_samples = [excluded_samples, current_range];
     end
-    LFP_data(:,artifact_range) = [];
+    excluded_samples = unique (excluded_samples);
+    LFP_data(:,excluded_samples) = [];
 
     % delete selected channels (rows) from LFP_data
     excluded_channels = [bad_channels, offslice_channels];
