@@ -10,7 +10,7 @@ function RAR_findpeaks (LFP_file, artifact_file, bad_channels_file, offslice_cha
     bad_channels = readmatrix (bad_channels_file);
     offslice_channels = readmatrix (offslice_channels_file);
 
-    excluded_samples = (excluded_minutes(1) * 60 * sample_rate):(excluded_minutes(end) * 60 * sample_rate)
+    excluded_samples = [((excluded_minutes(1) * 60 * sample_rate) + 1):(excluded_minutes(end) * 60 * sample_rate)];
 
     % Delete selected time ranges (columns) from LFP_data. 
     % artifact_samples is a N x 2 array where N is the number of
