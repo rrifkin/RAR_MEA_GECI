@@ -1,18 +1,21 @@
-function RAR_findpeaks (LFP_file, artifact_file, bad_channels_file, offslice_channels_file, inactive_channels_file, excluded_minutes)
+% Determines which channels are "inactive" in the sense that findpeaks
+% detects no peaks according to same criteria used by RAR_findpeaks.
+% The output from all epochs of the experiment should be reconciled;
+% if a channel exists in only one file it should be deleted from all,
+% because it was active at some point in the experiment.
+
+function RAR_inactive_ch (LFP_file, artifact_file)
 
     % Parameters
     sample_rate = 2000; 
     threshold_std = 4;
-    output_suffix = '_findpeaks_v4_inactive_ch.csv'
+    output_suffix = '_inactive_channels.csv'
 
     % Import LFP data
     LFP_data = importdata (LFP_file);
     artifact_samples = readmatrix(artifact_file);
-    bad_channels = readmatrix (bad_channels_file);
-    offslice_channels = readmatrix (offslice_channels_file);
-    inactive_channels = readmatrix (inactive_channels_file)
 
-    excluded_samples = [((excluded_minutes(1) * 60 * sample_rate) + 1):(excluded_minutes(end) * 60 * sample_rate)];
+    excluded_samples = [];
 
     % Delete selected time ranges (columns) from LFP_data. 
     % artifact_samples is a N x 2 array where N is the number of
@@ -25,15 +28,12 @@ function RAR_findpeaks (LFP_file, artifact_file, bad_channels_file, offslice_cha
     excluded_samples = unique (excluded_samples);
     LFP_data(:,excluded_samples) = [];
 
-    % delete selected channels (rows) from LFP_data
-    excluded_channels = [bad_channels, offslice_channels, inactive_channels];
-    excluded_channels = unique(excluded_channels);
-    LFP_data(excluded_channels(:),:) = [] ;
-
     % Run findpeaks analysis
     num_channels = length(LFP_data(:,1));
     LFP_samples = 1:length(LFP_data(1,:));
     LFP_seconds = length(LFP_data(1,:)) / sample_rate; 
+
+	inactive_channels = [];
 
     % iterates through channels and counts peaks
 	for ch = 1:num_channels
@@ -51,16 +51,12 @@ function RAR_findpeaks (LFP_file, artifact_file, bad_channels_file, offslice_cha
         amplitudes = [max_amplitudes, min_amplitudes];
         indices = [max_indices; min_indices]; 
 
-        freq_peaks(ch) = length(indices) / LFP_seconds;
-        amp_peaks(ch) = mean(amplitudes, 'omitnan');
+		if isempty(indices)
+			inactive_channels = [inactive_channels, ch];
     end
 
-
-    % calculates mean number of peaks per channel
-	mean_freq_peaks = mean(freq_peaks, 'omitnan');
-    mean_amp_peaks = mean(amp_peaks, 'omitnan');
-	output_array = ["mean number of peaks per second per channel", mean_freq_peaks; "mean amplitude of peaks", mean_amp_peaks];
+    % outputs inactive channels
     output_file = strcat(LFP_file(1:end-16), output_suffix);
-    writematrix(output_array, output_file);
+    writematrix(inactive_channels, output_file);
 
 end

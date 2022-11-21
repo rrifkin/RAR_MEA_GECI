@@ -31,7 +31,7 @@ function RAR_linelength (LFP_file, artifact_file, bad_channels_file, offslice_ch
 
     % Calculates linelength
     linelength = sum(abs(diff(LFP_data,[],2)'))./size(LFP_data,2);
-    linelength = linelength * sample_rate; 
+    linelength = linelength * sample_rate
 	mean_linelength = mean(linelength);
 
     % Output data to .csv file
