@@ -1,4 +1,4 @@
-function RAR_findpeaks (LFP_file, artifact_file, bad_channels_file, offslice_channels_file, inactive_channels_file, excluded_minutes)
+function RAR_findpeaks (LFP_file, artifact_file, bad_channels_file, offslice_channels_file, excluded_minutes)
 
     % Parameters
     sample_rate = 2000; 
@@ -10,7 +10,6 @@ function RAR_findpeaks (LFP_file, artifact_file, bad_channels_file, offslice_cha
     artifact_samples = readmatrix(artifact_file);
     bad_channels = readmatrix (bad_channels_file);
     offslice_channels = readmatrix (offslice_channels_file);
-    inactive_channels = readmatrix (inactive_channels_file)
 
     excluded_samples = [((excluded_minutes(1) * 60 * sample_rate) + 1):(excluded_minutes(end) * 60 * sample_rate)];
 
@@ -26,7 +25,7 @@ function RAR_findpeaks (LFP_file, artifact_file, bad_channels_file, offslice_cha
     LFP_data(:,excluded_samples) = [];
 
     % delete selected channels (rows) from LFP_data
-    excluded_channels = [bad_channels, offslice_channels, inactive_channels];
+    excluded_channels = [bad_channels, offslice_channels];
     excluded_channels = unique(excluded_channels);
     LFP_data(excluded_channels(:),:) = [] ;
 

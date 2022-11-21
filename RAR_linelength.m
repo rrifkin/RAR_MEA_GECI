@@ -1,15 +1,14 @@
-function RAR_linelength (LFP_file, artifact_file, bad_channels_file, offslice_channels_file, inactive_channels_file, excluded_minutes)
+function RAR_linelength (LFP_file, artifact_file, bad_channels_file, offslice_channels_file, excluded_minutes)
 
     % Parameters
     sample_rate = 2000; % in Hz
-    output_suffix = '_linelength_v4_inactive_ch';
+    output_suffix = '_linelength_v3';
 
     % Import LFP data
     LFP_data = importdata (LFP_file);
 	artifact_samples = readmatrix(artifact_file);
-	bad_channels = readmatrix (bad_channels_file)
-    offslice_channels = readmatrix (offslice_channels_file)
-    inactive_channels = readmatrix (inactive_channels_file)
+	bad_channels = readmatrix (bad_channels_file);
+    offslice_channels = readmatrix (offslice_channels_file);
 
     excluded_samples = [((excluded_minutes(1) * 60 * sample_rate) + 1):(excluded_minutes(end) * 60 * sample_rate)];
 
@@ -25,13 +24,13 @@ function RAR_linelength (LFP_file, artifact_file, bad_channels_file, offslice_ch
     LFP_data(:,excluded_samples) = [];
 
     % delete selected channels (rows) from LFP_data
-    excluded_channels = [bad_channels, offslice_channels, inactive_channels]
+    excluded_channels = [bad_channels, offslice_channels]
     excluded_channels = unique(excluded_channels)
     LFP_data(excluded_channels(:),:) = [] ;
 
     % Calculates linelength
     linelength = sum(abs(diff(LFP_data,[],2)'))./size(LFP_data,2);
-    linelength = linelength * sample_rate
+    linelength = linelength * sample_rate;
 	mean_linelength = mean(linelength);
 
     % Output data to .csv file

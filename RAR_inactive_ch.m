@@ -9,7 +9,7 @@ function RAR_inactive_ch (LFP_file, artifact_file)
     % Parameters
     sample_rate = 2000; 
     threshold_std = 4;
-    output_suffix = '_inactive_channels.csv'
+    output_suffix = '_inactive_channels.csv';
 
     % Import LFP data
     LFP_data = importdata (LFP_file);
