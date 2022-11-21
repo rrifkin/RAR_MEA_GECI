@@ -2,11 +2,7 @@
 % and downsampled .mat files into the order of the experiment, then makes
 % LFP plots.
 
-function RAR_workflow_plots (input_path)
-
-	% Inclusion and exclusion criteria
-	exclude_string = 'EXCLUDE';
-	include_string = 'WT Non-Tumor MEA GiGA1 vs. Vehicle';
+function RAR_workflow_plots (input_path, include_string, exclude_string)
 
 	% Recursively locate all .ns5 files in the provided directory
 	file_list = dir ([input_path, '/**/*.ns5']);
