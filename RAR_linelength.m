@@ -1,14 +1,15 @@
-function RAR_linelength (LFP_file, artifact_file, bad_channels_file, offslice_channels_file, excluded_minutes)
+function RAR_linelength (LFP_file, artifact_file, bad_channels_file, offslice_channels_file, inactive_channels_file, excluded_minutes)
 
     % Parameters
     sample_rate = 2000; % in Hz
-    output_suffix = '_linelength_v3';
+    output_suffix = '_linelength_v4_inactive_ch';
 
     % Import LFP data
     LFP_data = importdata (LFP_file);
 	artifact_samples = readmatrix(artifact_file);
 	bad_channels = readmatrix (bad_channels_file);
     offslice_channels = readmatrix (offslice_channels_file);
+    inactive_channels = readmatrix (inactive_channels_file);
 
     excluded_samples = [((excluded_minutes(1) * 60 * sample_rate) + 1):(excluded_minutes(end) * 60 * sample_rate)];
 
@@ -24,8 +25,8 @@ function RAR_linelength (LFP_file, artifact_file, bad_channels_file, offslice_ch
     LFP_data(:,excluded_samples) = [];
 
     % delete selected channels (rows) from LFP_data
-    excluded_channels = [bad_channels, offslice_channels]
-    excluded_channels = unique(excluded_channels)
+    excluded_channels = [bad_channels, offslice_channels, inactive_channels];
+    excluded_channels = unique(excluded_channels);
     LFP_data(excluded_channels(:),:) = [] ;
 
     % Calculates linelength
@@ -33,15 +34,13 @@ function RAR_linelength (LFP_file, artifact_file, bad_channels_file, offslice_ch
     linelength = linelength * sample_rate;
 	mean_linelength = mean(linelength);
 
+    % Output data by channel to .csv file
+    output_file = strcat(LFP_file(1:end-16), output_suffix, 'linelength_per_channel.csv');
+	writematrix(linelength, output_file);
+
     % Output data to .csv file
 	output_array = ["mean linelength per second per channel", mean_linelength];
-	output_file = strcat(LFP_file(1:end-16), output_suffix, '.csv');
+	output_file = strcat(LFP_file(1:end-16), output_suffix, 'mean_linelength.csv');
 	writematrix(output_array, output_file);
-
-    % Plot actually analyzed data for sanity-checking
-    %clean_plot_file = strcat(LFP_file, output_suffix, '_analyzed_data.pdf');
-    %LFP_samples = 1:length(LFP_data(1,:));
-    %num_channels = length(LFP_data(:,1));
-    %RAR_plot_traces (LFP_samples, LFP_data, 2000, num_channels, clean_plot_file);
 
 end
