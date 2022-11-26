@@ -1,7 +1,7 @@
 % Does LFP analyses on all files (that have had the appropriate manual steps
 % performed) in a given directory.
 
-function RAR_workflow_analysis (input_path, include_string, exclude_string, inactive_channels_file, excluded_minutes)
+function RAR_workflow_analysis (input_path, include_string, exclude_string, excluded_minutes)
 
 	% Recursively locate all '_artifact_samples.csv' files in the provided directory
 	file_list = dir ([input_path, '/**/*_artifact_samples.csv']);
@@ -26,6 +26,7 @@ function RAR_workflow_analysis (input_path, include_string, exclude_string, inac
 		artifact_file = file_paths{i};
 		bad_channels_file = strcat(artifact_file(1:end-21), '_bad_channels.csv');
 		offslice_channels_file = strcat(artifact_file(1:end-21), '_offslice_channels.csv');
+		inactive_channels_file = strcat(artifact_file(1:end-21), '_inactive_channels.csv');
 		LFP_file = strcat(artifact_file(1:end-21), '_NSxFile_LFP.mat')
 		RAR_linelength (LFP_file, artifact_file, bad_channels_file, offslice_channels_file, inactive_channels_file, excluded_minutes);
 		RAR_findpeaks (LFP_file, artifact_file, bad_channels_file, offslice_channels_file, inactive_channels_file, excluded_minutes);
