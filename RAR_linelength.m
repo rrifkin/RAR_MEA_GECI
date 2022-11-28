@@ -12,6 +12,7 @@ function RAR_linelength (LFP_file, artifact_file, bad_channels_file, offslice_ch
     inactive_channels = readmatrix (inactive_channels_file);
 
     excluded_samples = [((excluded_minutes(1) * 60 * sample_rate) + 1):(excluded_minutes(end) * 60 * sample_rate)];
+    excluded_min_string = strcat(num2str('exclude_min_', excluded_minutes(1)), '-', num2str(excluded_minutes(end)));
 
     % Delete selected time ranges (columns) from LFP_data. 
     % artifact_samples is a N x 2 array where N is the number of
@@ -35,12 +36,12 @@ function RAR_linelength (LFP_file, artifact_file, bad_channels_file, offslice_ch
 	mean_linelength = mean(linelength);
 
     % Output data by channel to .csv file
-    output_file = strcat(LFP_file(1:end-16), output_suffix, 'linelength_per_channel.csv');
-	writematrix(linelength, output_file);
+    output_file = strcat(LFP_file(1:end-16), output_suffix, excluded_min_string, '_linelength_per_channel.csv');
+	writematrix(linelength', output_file);
 
     % Output data to .csv file
 	output_array = ["mean linelength per second per channel", mean_linelength];
-	output_file = strcat(LFP_file(1:end-16), output_suffix, 'mean_linelength.csv');
+	output_file = strcat(LFP_file(1:end-16), output_suffix, excluded_min_string, '_mean_linelength.csv');
 	writematrix(output_array, output_file);
 
 end

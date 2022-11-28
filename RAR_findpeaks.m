@@ -13,6 +13,7 @@ function RAR_findpeaks (LFP_file, artifact_file, bad_channels_file, offslice_cha
     inactive_channels = readmatrix (inactive_channels_file);
 
     excluded_samples = [((excluded_minutes(1) * 60 * sample_rate) + 1):(excluded_minutes(end) * 60 * sample_rate)];
+    excluded_min_string = strcat(num2str('exclude_min_', excluded_minutes(1)), '-', num2str(excluded_minutes(end)));
 
     % Delete selected time ranges (columns) from LFP_data. 
     % artifact_samples is a N x 2 array where N is the number of
@@ -55,17 +56,17 @@ function RAR_findpeaks (LFP_file, artifact_file, bad_channels_file, offslice_cha
         amp_peaks(ch) = mean(amplitudes, 'omitnan');
     end
 
-    freq_peaks_file = strcat(LFP_file(1:end-16), output_suffix, '_freq_peaks_by_ch.csv');
+    freq_peaks_file = strcat(LFP_file(1:end-16), output_suffix,  excluded_min_string, '_freq_peaks_by_ch.csv');
     writematrix(freq_peaks', freq_peaks_file);
 
-    amp_peaks_file = strcat(LFP_file(1:end-16), output_suffix, '_amp_peaks_by_ch.csv');
+    amp_peaks_file = strcat(LFP_file(1:end-16), output_suffix,  excluded_min_string, '_amp_peaks_by_ch.csv');
     writematrix(amp_peaks', amp_peaks_file);
 
     % calculates mean number of peaks per channel
 	mean_freq_peaks = mean(freq_peaks, 'omitnan');
     mean_amp_peaks = mean(amp_peaks, 'omitnan');
 	output_array = ["mean number of peaks per second per channel", mean_freq_peaks; "mean amplitude of peaks", mean_amp_peaks];
-    output_file = strcat(LFP_file(1:end-16), output_suffix, 'means.csv');
+    output_file = strcat(LFP_file(1:end-16), output_suffix, excluded_min_string, '_means.csv');
     writematrix(output_array, output_file);
 
 end
