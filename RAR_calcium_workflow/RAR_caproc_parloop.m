@@ -1,6 +1,13 @@
 % Performs parallel processing of calcium intensity within defined ROIs
 
-function RAR_caproc_parloop (radius, eleclocs_file, number_of_tifs, tif_filename_prefix, tif_filename_suffix, output_filename)
+function RAR_caproc_parloop (radius, eleclocs_file, list_of_tifs)
+
+	tif_filename_suffix = ".ome.tif";
+
+	number_of_tifs =  length (list_of_tifs) ; % count number of tifs in the directory
+	current_path = list_of_tifs(i).folder;
+	tif_filename_prefix = erase(list_of_tifs(1,1).name,".ome.tif"); % extract filename prefix from first element of list of tifs
+	output_filename = strcat(current_path, "/", tif_filename_prefix, ".mat"); 
 
 	load(eleclocs_file,'-mat','Eleclocs');
 
