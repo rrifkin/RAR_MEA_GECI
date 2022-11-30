@@ -28,7 +28,7 @@ function RAR_workflow_analysis (input_path, include_string, exclude_string, excl
 		offslice_channels_file = strcat(artifact_file(1:end-21), '_offslice_channels.csv');
 		inactive_channels_file = strcat(artifact_file(1:end-21), '_inactive_channels.csv');
 		LFP_file = strcat(artifact_file(1:end-21), '_NSxFile_LFP.mat')
-		%RAR_linelength (LFP_file, artifact_file, bad_channels_file, offslice_channels_file, inactive_channels_file, excluded_minutes);
+		RAR_linelength (LFP_file, artifact_file, bad_channels_file, offslice_channels_file, inactive_channels_file, excluded_minutes);
 		RAR_findpeaks (LFP_file, artifact_file, bad_channels_file, offslice_channels_file, inactive_channels_file, excluded_minutes);
 	end
 

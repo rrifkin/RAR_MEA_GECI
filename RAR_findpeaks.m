@@ -2,8 +2,8 @@ function RAR_findpeaks (LFP_file, artifact_file, bad_channels_file, offslice_cha
 
     % Parameters
     sample_rate = 2000; 
-    threshold_std = 5;
-    output_suffix = '_findpeaks_v5_std_5';
+    threshold_std = 4;
+    output_suffix = '_findpeaks_v4_inactive_ch';
 
     % Import LFP data
     LFP_data = importdata (LFP_file);
