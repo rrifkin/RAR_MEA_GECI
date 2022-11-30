@@ -12,7 +12,7 @@ function RAR_linelength (LFP_file, artifact_file, bad_channels_file, offslice_ch
     inactive_channels = readmatrix (inactive_channels_file);
 
     excluded_samples = [((excluded_minutes(1) * 60 * sample_rate) + 1):(excluded_minutes(end) * 60 * sample_rate)];
-    excluded_min_string = strcat(num2str('exclude_min_', excluded_minutes(1)), '-', num2str(excluded_minutes(end)));
+    excluded_min_string = strcat('_exclude_min_', num2str(excluded_minutes(1)), '-', num2str(excluded_minutes(end)));
 
     % Delete selected time ranges (columns) from LFP_data. 
     % artifact_samples is a N x 2 array where N is the number of
