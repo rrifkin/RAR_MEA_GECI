@@ -17,25 +17,25 @@ function output_filename = RAR_caproc_parloop (eleclocs_file, list_of_tifs)
 	% find radius in pixels
 	radius = find_radius (eleclocs)
 
-	% % creates a cell array with 1 row and as many columns as number_of_tifs
-	% channel_intensities = cell(1, number_of_tifs);
+	% creates a cell array with 1 row and as many columns as number_of_tifs
+	channel_intensities = cell(1, number_of_tifs);
 
-	% % Run chan_intensity on the first file (which does not have a number)
-	% filename = strcat(current_path, '/', tif_filename_prefix, tif_filename_suffix)
-	% info = imfinfo(filename);
-	% num_frames = length(info);
-	% channel_intensities{1} = chan_intensity(filename, radius, num_frames, eleclocs);
+	% Run chan_intensity on the first file (which does not have a number)
+	filename = strcat(current_path, '/', tif_filename_prefix, tif_filename_suffix)
+	info = imfinfo(filename);
+	num_frames = length(info);
+	channel_intensities{1} = chan_intensity(filename, radius, num_frames, eleclocs);
 
-	% % Run chan_intensity on the remaining files (which have a number)
-	% parfor i = 1:(number_of_tifs - 1)
-	% 	filename = strcat(current_path, '/', tif_filename_prefix, '_', num2str(i), tif_filename_suffix);
-	% 	info = imfinfo(filename);
-	% 	num_frames = length(info);
-	% 	channel_intensities{i+1} = chan_intensity(filename, radius, num_frames, eleclocs);
-	% end
+	% Run chan_intensity on the remaining files (which have a number)
+	parfor i = 1:(number_of_tifs - 1)
+		filename = strcat(current_path, '/', tif_filename_prefix, '_', num2str(i), tif_filename_suffix);
+		info = imfinfo(filename);
+		num_frames = length(info);
+		channel_intensities{i+1} = chan_intensity(filename, radius, num_frames, eleclocs);
+	end
 
-	% % save channel intensities to a csv file
-	% writecell (channel_intensities, output_filename);
+	% save channel intensities to a csv file
+	writecell (channel_intensities, output_filename);
 
 	% save radius to csv file
 	writematrix (radius, radius_filename);
