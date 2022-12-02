@@ -1,25 +1,15 @@
 % Takes normalized calcium imaging data (in ROI order, not rearranged into MEA channel order) and calculates Pearson correltion coefficient of each ROI compared to its 8 immediate neighbors. This is performed for the pre- and post-GiGA1 epochs.
 
-function RAR_Pearson_correlation_wilcoxon (input_file)
+function RAR_Pearson_correlation_wilcoxon (DMSO_file, GiGA1_file)
 
-	load (input_file, 'Delta_eleccal');
-	data = Delta_eleccal;
+	DMSO_normalized = readmatrix ('DMSO_file');
+	GiGA1_normalized = readmatrix ('GiGA1_file');
 
 	% arrays containing the r_values for control and giga1 epochs
-	r_values_control = [];
-	r_values_giga1 = [];
-
-	% function that compares an index ROI to any neighbor, defined by 'diff'
-	function RAR_Pearson_compare(index, diff)
-		r_matrix = corrcoef(data(index,1:45000),data(index + diff,1:45000));
-		r_values_control (end+1) = r_matrix(1,2);
-
-		r_matrix = corrcoef(data(index,45001:90000),data(index + diff,45001:90000));
-		r_values_giga1 (end+1) = r_matrix(1,2);
-	end
+	r_values_DMSO = [];
+	r_values_GiGA1 = [];
 
 	% iterate through all ROIs
-
 	for ROI = 1:8
 		
 		% compare to value RIGHT
@@ -86,27 +76,20 @@ function RAR_Pearson_correlation_wilcoxon (input_file)
 		RAR_Pearson_compare(ROI,1);
 	end
 
-	control_mean = mean(r_values_control,'omitnan');
-	control_SEM = RAR_sem(r_values_control);
+	DMSO_output_file = strcat(DMSO_file(1:end-21), '_Pearson_r_values.csv');
+	writematrix (r_values_DMSO, DMSO_output_file);
 
-	giga1_mean = mean(r_values_giga1,'omitnan');
-	giga1_SEM = RAR_sem(r_values_giga1);
+	GiGA1_output_file = strcat(GiGA1_file(1:end-21), '_Pearson_r_values.csv');
+	writematrix (r_values_GiGA1, GiGA1_output_file);
 
-	disp('Control mean r-value:');
-	disp(control_mean);
-	disp('Control SEM:');
-	disp(control_SEM);
+	% nested function that compares an index ROI to any neighbor, defined by 'diff'
+	function RAR_Pearson_compare(index, diff)
+		r_matrix_DMSO = corrcoef(DMSO_normalized(index,:), DMSO_normalized(index + diff,:));
+		r_values_DMSO (end+1) = r_matrix_DMSO(1,2);
 
-	disp('GIGA1 mean r-value:');
-	disp(giga1_mean);
-	disp('GIGA1 SEM:');
-	disp(giga1_SEM);
-
-	p_value = ranksum(r_values_control,r_values_giga1);
-	disp('p value:')
-	disp(p_value);
-
-	save('r_values_control.mat','r_values_control');
-	save('r_values_giga1.mat','r_values_giga1');
+		r_matrix_GiGA1 = corrcoef(GiGA1_normalized(index,45001:90000), GiGA1_normalized(index + diff,45001:90000));
+		r_values_GiGA1 (end+1) = r_matrix_GiGA1(1,2);
+	end
 
 end
+

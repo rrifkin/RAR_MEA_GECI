@@ -27,10 +27,10 @@ function RAR_normalization (varargin)
 		[~,times] = cal_times(metadata_file); 
 		times_sec = times/1000;  %convert to seconds
 
-		normalized_intensity_file = strcat(filename(1:end-24), '_normalized_intensity.txt');
+		normalized_intensity_file = strcat(filename(1:end-24), '_normalized_intensity.csv');
 		writematrix(normalized_intensity, normalized_intensity_file);
 
-		times_file = strcat(filename(1:end-24), '_normalized_times.txt');
+		times_file = strcat(filename(1:end-24), '_normalized_times.csv');
 		writematrix(times_sec, times_file);
 
 	end
