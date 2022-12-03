@@ -1,9 +1,9 @@
 % Takes normalized calcium imaging data (in ROI order, not rearranged into MEA channel order) and calculates Pearson correltion coefficient of each ROI compared to its 8 immediate neighbors. This is performed for the pre- and post-GiGA1 epochs.
 
-function RAR_Pearson_correlation_wilcoxon (DMSO_file, GiGA1_file)
+function RAR_Pearson_correlation (DMSO_file, GiGA1_file)
 
-	DMSO_normalized = readmatrix ('DMSO_file');
-	GiGA1_normalized = readmatrix ('GiGA1_file');
+	DMSO_normalized = importdata (DMSO_file);
+	GiGA1_normalized = importdata (GiGA1_file);
 
 	% arrays containing the r_values for control and giga1 epochs
 	r_values_DMSO = [];
