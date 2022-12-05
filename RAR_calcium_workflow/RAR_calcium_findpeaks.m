@@ -2,7 +2,7 @@ function RAR_calcium_findpeaks (normalized_intensity_file, offslice_channels_fil
 
     % Parameters
     frame_rate = 50; 
-    threshold = 1.01;
+    min_peak_height = 1.01;
     output_suffix = '_calcium_findpeaks_v1';
 
     % Import LFP data
@@ -20,7 +20,6 @@ function RAR_calcium_findpeaks (normalized_intensity_file, offslice_channels_fil
 
     % iterates through electrodes and counts peaks
 	for ch = 1:num_channels
-        min_peak_height = mean(normalized_intensity(ch,:), 'omitnan') * threshold;
 
         % find local maxima
     	[max_amplitudes, max_indices] = findpeaks(normalized_intensity(ch,:),num_frames(:),'MinPeakHeight',min_peak_height,'MinPeakDistance',1);

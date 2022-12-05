@@ -24,14 +24,15 @@ function output_filename = RAR_caproc_parloop (eleclocs_file, list_of_tifs)
 	filename = strcat(current_path, '/', tif_filename_prefix, tif_filename_suffix);
 	info = imfinfo(filename);
 	num_frames = length(info);
-	elec_intensities{1} = chan_intensity(filename, radius, num_frames, eleclocs);
+	elec_intensities = chan_intensity(filename, radius, num_frames, eleclocs);
 
 	% Run chan_intensity on the remaining files (which have a number)
 	parfor i = 1:(number_of_tifs - 1)
 		filename = strcat(current_path, '/', tif_filename_prefix, '_', num2str(i), tif_filename_suffix);
 		info = imfinfo(filename);
 		num_frames = length(info);
-		elec_intensities{i+1} = chan_intensity(filename, radius, num_frames, eleclocs);
+		current_intensities = chan_intensity(filename, radius, num_frames, eleclocs);
+		elec_intensities = [elec_intensities, current_intensities];
 	end
 
 	% save elec intensities to a mat file
