@@ -24,8 +24,8 @@ function RAR_calcium_plot (varargin)
         current_suffix = erase(current_filename, '_1_MMStack_Pos0_normalized_intensity.mat');
         PDF_filename = strcat(PDF_filename, "," , current_suffix);
     end
-    PDF_filename = strcat(PDF_filename, '_GECI_.pdf');
+    PDF_filename = strcat(PDF_filename, '_GECI.pdf');
 
-	RAR_plot_traces (Ca_samples, concatenated_Ca_data, 50, 96, PDF_filename);
+	RAR_calcium_plot_traces (Ca_samples, concatenated_Ca_data, 50, 96, PDF_filename);
 
 end
