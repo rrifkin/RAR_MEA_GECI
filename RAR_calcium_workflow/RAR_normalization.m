@@ -24,16 +24,16 @@ function normalized_filenames = RAR_normalization (varargin)
 		normalized_intensity = mmxRecord(:,first_frame:last_frame);
 		first_frame = last_frame + 1;
 
-		metadata_file = strcat(filename(1:end-21), '_metadata.txt');
-		[~,times] = cal_times(metadata_file); 
-		times_sec = times/1000;  %convert to seconds
+		% metadata_file = strcat(filename(1:end-21), '_metadata.txt');
+		% [~,times] = cal_times(metadata_file); 
+		% times_sec = times/1000;  %convert to seconds
 
 		normalized_intensity_file = strcat(filename(1:end-21), '_normalized_intensity.mat');
 		normalized_filenames{i} = normalized_intensity_file; 
 		save (normalized_intensity_file, 'normalized_intensity', '-v7.3');
 
-		times_file = strcat(filename(1:end-21), '_normalized_times.mat');
-		save (times_file, 'times_sec', '-v7.3');
+		% times_file = strcat(filename(1:end-21), '_normalized_times.mat');
+		% save (times_file, 'times_sec', '-v7.3');
 
 	end
 
