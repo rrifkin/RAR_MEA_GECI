@@ -12,6 +12,6 @@ function RAR_calcium_washin_workflow (eleclocs_file, varargin)
 	end
 
 	normalized_filenames = RAR_normalization(raw_intensity_filenames{:});
-	RAR_calcium_plot (normalized_filenames);
+	RAR_calcium_plot (normalized_filenames{:});
 
 end

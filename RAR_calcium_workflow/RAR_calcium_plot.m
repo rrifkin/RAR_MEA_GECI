@@ -17,14 +17,13 @@ function RAR_calcium_plot (varargin)
     Ca_samples = [1:Ca_length];
 
     % Determine the final output PDF filename
-    current_filename = varargin{1};
-    PDF_filename = current_filename(1:end-4);
+    [path, current_filename, ~] = fileparts(varargin{1});
+    PDF_filename = strcat(path(1:end-6), 'GECI_plot_', current_filename(1:end-36));
     for i = 2:nargin
         [ ~ , current_filename, ~ ] = fileparts(varargin{i});
-        current_suffix = erase(current_filename, '_1_MMStack_Pos0_normalized_intensity.mat');
-        PDF_filename = strcat(PDF_filename, "," , current_suffix);
+        PDF_filename = strcat(PDF_filename, "," , current_filename(1:end-36));
     end
-    PDF_filename = strcat(PDF_filename, '_GECI.pdf');
+    PDF_filename = strcat(PDF_filename, '.pdf');
 
 	RAR_calcium_plot_traces (Ca_samples, concatenated_Ca_data, 50, 96, PDF_filename);
 
