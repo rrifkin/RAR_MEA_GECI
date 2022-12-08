@@ -8,14 +8,23 @@ function RAR_Pearson_correlation (DMSO_file, GiGA1_file, included_minutes, elecl
 	% eleclocs_file should be a csv file with x coordinates in first column, y 
 	% coordinates in 2nd column. Rows are electrodes 1-96 in increasing order.
 	eleclocs = readmatrix(eleclocs_file);
-	excluded_electrodes = find(eleclocs(:,1) == -1); % Finds electrodes marked as offslice
+	excluded_electrodes = find(eleclocs(:,1) == -1) % Finds electrodes marked as offslice
 
 	DMSO_normalized = importdata (DMSO_file);
 	GiGA1_normalized = importdata (GiGA1_file);
 
     start_frame = included_minutes(1) * 60 * frame_rate;
 	end_frame = included_minutes(end) * 60 * frame_rate;
-	included_min_string = strcat('_include_min_', num2str(included_minutes(1)), '-', num2str(included_minutes(end)));
+
+	if end_frame > length(DMSO_normalized)
+		end_frame = length(DMSO_normalized)
+	end
+
+	if end_frame > length(GiGA1_normalized)
+		end_frame = length(GiGA1_normalized)
+	end
+
+	included_min_string = strcat('_include_min_', num2str(included_minutes(1),2), '-', num2str(included_minutes(end),2));
 
 	% arrays containing the r_values for control and giga1 epochs
 	r_values_DMSO = [];
@@ -106,7 +115,8 @@ function RAR_Pearson_correlation (DMSO_file, GiGA1_file, included_minutes, elecl
 	function RAR_Pearson_compare(index, diff)
 
 		if ~ismember(index, excluded_electrodes)
-			if ~ismember(diff, excluded_electrodes)
+			disp(index)
+			if ~ismember(index + diff, excluded_electrodes)
 				r_matrix_DMSO = corrcoef(DMSO_normalized(index,start_frame:end_frame), DMSO_normalized(index + diff,start_frame:end_frame));
 				r_values_DMSO (end+1) = r_matrix_DMSO(1,2);
 
