@@ -82,11 +82,11 @@ function RAR_Pearson_correlation (DMSO_file, GiGA1_file, included_minutes)
 		RAR_Pearson_compare(ROI,1);
 	end
 
-	DMSO_output_file = strcat(DMSO_file(1:end-24), included_min_string, '_Pearson_r_values.csv');
-	writematrix (r_values_DMSO, DMSO_output_file);
+	DMSO_output_file = strcat(DMSO_file(1:end-25), included_min_string, '_Pearson_r_values.csv');
+	writematrix (r_values_DMSO', DMSO_output_file);
 
-	GiGA1_output_file = strcat(GiGA1_file(1:end-24), included_min_string, '_Pearson_r_values.csv');
-	writematrix (r_values_GiGA1, GiGA1_output_file);
+	GiGA1_output_file = strcat(GiGA1_file(1:end-25), included_min_string, '_Pearson_r_values.csv');
+	writematrix (r_values_GiGA1', GiGA1_output_file);
 
 	% nested function that compares an index ROI to any neighbor, defined by 'diff'
 	function RAR_Pearson_compare(index, diff)
