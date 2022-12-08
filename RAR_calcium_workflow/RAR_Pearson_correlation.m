@@ -115,7 +115,6 @@ function RAR_Pearson_correlation (DMSO_file, GiGA1_file, included_minutes, elecl
 	function RAR_Pearson_compare(index, diff)
 
 		if ~ismember(index, excluded_electrodes)
-			disp(index)
 			if ~ismember(index + diff, excluded_electrodes)
 				r_matrix_DMSO = corrcoef(DMSO_normalized(index,start_frame:end_frame), DMSO_normalized(index + diff,start_frame:end_frame));
 				r_values_DMSO (end+1) = r_matrix_DMSO(1,2);
