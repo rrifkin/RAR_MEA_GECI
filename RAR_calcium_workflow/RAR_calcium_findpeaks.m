@@ -9,7 +9,7 @@ function RAR_calcium_findpeaks (normalized_intensity_file, included_minutes, ele
     normalized_intensity = importdata (normalized_intensity_file);
 
     eleclocs = readmatrix(eleclocs_file);
-	excluded_electrodes = find(eleclocs(:,1) == -1) % Finds electrodes marked as offslice
+	excluded_electrodes = find(eleclocs(:,1) == -1); % Finds electrodes marked as offslice
 
     start_frame = included_minutes(1) * 60 * frame_rate;
     end_frame = included_minutes(end) * 60 * frame_rate;
@@ -30,7 +30,7 @@ function RAR_calcium_findpeaks (normalized_intensity_file, included_minutes, ele
     % Run findpeaks analysis
     num_elecs = length(normalized_intensity(:,1));
     num_frames = 1:length(normalized_intensity(1,:));
-    num_seconds = length(normalized_intensity(1,:)) / sample_rate; 
+    num_seconds = length(normalized_intensity(1,:)) / frame_rate; 
 
     % iterates through electrodes and counts peaks
 	for ch = 1:num_elecs
@@ -51,10 +51,10 @@ function RAR_calcium_findpeaks (normalized_intensity_file, included_minutes, ele
         amp_peaks(ch) = mean(amplitudes, 'omitnan');
     end
 
-    freq_peaks_file = strcat(normalized_intensity_file(1:end-24), output_suffix,  excluded_min_string, '_Ca_freq_peaks_by_elec.csv');
+    freq_peaks_file = strcat(normalized_intensity_file(1:end-24), output_suffix, included_min_string, '_Ca_freq_peaks_by_elec.csv');
     writematrix(freq_peaks', freq_peaks_file);
 
-    amp_peaks_file = strcat(normalized_intensity_file(1:end-24), output_suffix,  excluded_min_string, '_Ca_amp_peaks_by_elec.csv');
+    amp_peaks_file = strcat(normalized_intensity_file(1:end-24), output_suffix, included_min_string, '_Ca_amp_peaks_by_elec.csv');
     writematrix(amp_peaks', amp_peaks_file);
 
 end
