@@ -1,7 +1,5 @@
 % Accepts an .NS5 file and bandpass filters it into LFP and MUA bands. 
-% The LFP data is downsampled to 2 kHz and then saved to a .mat file.
-% The MUA data is spike-detected and aligned, and then spikes are saved 
-% in UMS2K format. 
+% The MUA data is downsampled and plotted. 
 
 function RAR_plot_MUA (varargin)
 
