@@ -1,5 +1,8 @@
 function [rapidINfr,rapidINt,rapidPCfr,rapidPCt] = RAR_rapidsort (spikes)
 
+    epoch_start = 0;
+    epoch_end = spikes(1).info.detect.dur
+
     load('Columbia_UMAs_GMM.mat')
     
     keptSpikeTimes = [];
@@ -34,7 +37,7 @@ function [rapidINfr,rapidINt,rapidPCfr,rapidPCt] = RAR_rapidsort (spikes)
     input_hws = hwsArray;
     input_times = keptSpikeTimes;
 
-    epoch = [0, input_times(end)]; % Adjusted so epoch starts at 0. % Need to keep up to date for different datasets, and ensure 'input_times' has been shifted so 0 = seizure onset
+    epoch = [epoch_start, epoch_end];
     
     tVals = floor(min(input_times)):binStep:ceil(max(input_times));
     posterior_probs = GM.posterior(log(input_hws)');

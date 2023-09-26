@@ -27,13 +27,13 @@ function RAR_rapidsort_plot_structured (exp, path)
 		rapidINfr = [rapidINfr, exp(i).rapidINfr];
 
 		% adjust for the exact starting time of the data
-		exp(i).temp_rapidINt = exp(i).rapidINt - exp(i).rapidINt(1) + rapidINt(end); 
+		exp(i).temp_rapidINt = exp(i).rapidINt + rapidINt(end); % - exp(i).rapidINt(1)  
 		rapidINt = [rapidINt, exp(i).temp_rapidINt];
 		
 		rapidPCfr = [rapidPCfr, exp(i).rapidPCfr];
 
 		% adjust for the exact starting time of the data
-		exp(i).temp_rapidPCt = exp(i).rapidPCt - exp(i).rapidPCt(1) + rapidPCt(end); 
+		exp(i).temp_rapidPCt = exp(i).rapidPCt + rapidPCt(end); % - exp(i).rapidPCt(1)  
 		rapidPCt = [rapidPCt, exp(i).temp_rapidPCt];
 	end
 
