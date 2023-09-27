@@ -1,4 +1,4 @@
-function output_electrodes_list = RAR_convert_chan_to_elec (input_channels_file)
+function output_electrodes_list = RAR_convert_chan_to_elec (input_channels_list)
 
 	channel_map = [-1,81,83,85,87,89,91,93,95,-1;
 	94,96,65,67,69,71,73,75,77,79;
@@ -21,8 +21,6 @@ function output_electrodes_list = RAR_convert_chan_to_elec (input_channels_file)
 	19,20,21,22,23,24,25,26,27,28;
 	9,10,11,12,13,14,15,16,17,18;
 	-1,1,2,3,4,5,6,7,8,-1];
-
-	input_channels_list = readmatrix(input_channels_file);
 
 	output_electrodes_list = [];
 	for i=1:length(input_channels_list)
