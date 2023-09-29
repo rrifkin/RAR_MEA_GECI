@@ -1,4 +1,4 @@
-
+% compares two groups and makes a bar 
 
 function RAR_compare_two_groups (csv_file, units, type)
 
