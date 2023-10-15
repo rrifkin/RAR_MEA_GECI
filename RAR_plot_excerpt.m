@@ -26,9 +26,10 @@ function RAR_plot_excerpt (input_file, sample_rate, channels, timepoints, vertic
 
 	% parameters
 	minutes_per_inch = 1; % determines horizontal scale
-	channels_per_inch = 10; % determines vertical increment
+	channels_per_inch = 3; % determines vertical increment
 	vertical_increment = vertical_scale / channels_per_inch
 	pad = 0.25; % padding around axes in inches
+	line_width = 1;
 
 	% instantiate the figure and axes with names
 	fig = figure;
@@ -73,7 +74,7 @@ function RAR_plot_excerpt (input_file, sample_rate, channels, timepoints, vertic
 	% plot sequential traces in ascending order
 	for index = 1:num_channels 
 		y_offset = excerpt(index,:) + offset ;
-		plot(samples, y_offset);
+		plot(samples, y_offset, 'LineWidth', line_width);
         offset = offset + vertical_increment;
     end
 

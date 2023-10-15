@@ -11,7 +11,7 @@
 function RAR_plot_LFP_excerpt (input_file, channels, timepoints)
 
 	% parameters
-	vertical_scale = 10000; % units per inch, e.g. 10,000 uV per inch
+	vertical_scale = 5000; % units per inch, e.g. 10,000 uV per inch
 	sample_rate = 2000; % LFP usually downsampled to 2000 Hz
 	offset = 0; % vertical offset, set to 0 for LFP
 	

@@ -9,7 +9,7 @@ function RAR_rapidsort_washin_workflow_structured (path)
 
 	for i = 1:length(exp)
 		cd (path);
-		exp(i).search_term = strcat('*', exp(i).name, '_NSxFile_MUA_spikes');
+		exp(i).search_term = strcat('*', exp(i).name, '*_NSxFile_MUA_spikes');
 		exp(i).folder = dir(exp(i).search_term);
 		exp(i).path = strcat(path, '/', exp(i).folder.name);
 		RAR_rapidsort_workflow (exp(i).path);
