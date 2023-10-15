@@ -7,10 +7,10 @@ function RAR_plot_rapidsort_excerpt (firing_rates_file, timepoints)
 	% parameters
 	pad = 0.25; % padding around axes in inches
 	seconds_per_inch = 60; % determines horizontal scale
-	PC_Hz_per_inch = 50; % determines vertical scale for PC
-	IN_Hz_per_inch = 10;
+	PC_Hz_per_inch = 100; % determines vertical scale for PC
+	IN_Hz_per_inch = 20;
 	seconds = timepoints(2) - timepoints(1); % total length of recording in seconds
-	window = 20000; % number of data points centered around current value
+	window = 10000; % number of data points centered around current value
 	line_width = 1;
 
 	% gaussian smoothing of data
@@ -41,6 +41,7 @@ function RAR_plot_rapidsort_excerpt (firing_rates_file, timepoints)
 	% set general axis properties
 	ax.Units = 'inches';
 	ax.Position = [pad, pad, ax_width, PC_ax_height]; % location of axes within figure, and size of axes
+	ax.FontSize = 6;
 
 	% set figure properties
 	fig.Visible = 'off';

@@ -10,7 +10,7 @@ function RAR_rapidsort_washin_means (path, timepoints)
 
 	for i = 2:numel(exp(1,:))
 		cd (path);
-		search_term = strcat('*', exp(1,i), '_NSxFile_MUA_spikes');
+		search_term = strcat('*', exp(1,i), '*_NSxFile_MUA_spikes');
 		folder = dir(search_term);
 		folder_path = strcat(path, '/', folder.name);
 		cd (folder_path);
