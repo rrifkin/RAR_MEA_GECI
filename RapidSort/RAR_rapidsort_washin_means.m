@@ -32,7 +32,7 @@ function RAR_rapidsort_washin_means (path, timepoints)
 	file_stem = string(pathparts(end));
 	str_timepoints = string(timepoints);
 	str_timepoints = strjoin(str_timepoints, '-');
-	output_path = strcat(path, '/', file_stem, str_timepoints, '_sec_rapidsort_mean_firing_rates.csv');
+	output_path = strcat(path, '/', file_stem, '_', str_timepoints, '_sec_rapidsort_mean_firing_rates.csv');
 	writematrix(exp, output_path);
 	
 end

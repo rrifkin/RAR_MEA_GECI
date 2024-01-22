@@ -3,7 +3,7 @@
 
 function RAR_rapidsort_prevention_workflow (path)
 
-	names = ["ACSF", "ZMG-GiGA1", "ZMG-DMSO", "ZMG-DMSO part 2"];
+	names = ["ACSF", "ZMG-GiGA1", "ZMG-DMSO"];
 	exp = struct;
 
 	j = 1;

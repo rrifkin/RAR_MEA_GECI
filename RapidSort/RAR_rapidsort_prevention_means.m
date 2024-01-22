@@ -11,7 +11,7 @@ function RAR_rapidsort_prevention_means (path, timepoints)
 
 	for i = 2:numel(exp(1,:))
 		cd (path);
-		search_term = strcat('*', exp(1,i), '*_NSxFile_MUA_spikes');
+		search_term = strcat('*', exp(1,i), '_NSxFile_MUA_spikes');
 		folder = dir(search_term);
 		if isempty (folder) ~= 1
 			folder_path = strcat(path, '/', folder.name);

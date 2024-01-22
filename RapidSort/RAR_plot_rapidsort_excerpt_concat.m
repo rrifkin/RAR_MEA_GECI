@@ -1,17 +1,38 @@
-% plot rapidsort data excerpt
+% plot rapidsort concatenated files
 
-function RAR_plot_rapidsort_excerpt (firing_rates_file, timepoints)
+function RAR_plot_rapidsort_excerpt_concat (DMSO_firing_rates_file, GiGA1_firing_rates_file, timepoints, seconds_per_inch, PC_Hz_per_inch)
 
-	load (firing_rates_file, 'rapidINfr', 'rapidINt', 'rapidPCfr', 'rapidPCt');
+	DMSO_data = load (DMSO_firing_rates_file, 'rapidINfr', 'rapidINt', 'rapidPCfr', 'rapidPCt');
+	GiGA1_data = load (GiGA1_firing_rates_file, 'rapidINfr', 'rapidINt', 'rapidPCfr', 'rapidPCt');
+
+	% initialize arrays with data from DMSO
+	rapidINfr = DMSO_data.rapidINfr;
+	rapidINt = DMSO_data.rapidINt;
+	rapidPCfr = DMSO_data.rapidPCfr;
+	rapidPCt = DMSO_data.rapidPCt;
+
+	rapidINfr = [rapidINfr, GiGA1_data.rapidINfr];
+
+	% adjust for the exact starting time of the data
+	GiGA1_data.temp_rapidINt = GiGA1_data.rapidINt + rapidINt(end);   
+	rapidINt = [rapidINt, GiGA1_data.temp_rapidINt];
+		
+	rapidPCfr = [rapidPCfr, GiGA1_data.rapidPCfr];
+
+	% adjust for the exact starting time of the data
+	GiGA1_data.temp_rapidPCt = GiGA1_data.rapidPCt + rapidPCt(end);
+	rapidPCt = [rapidPCt, GiGA1_data.temp_rapidPCt];
 
 	% parameters
 	pad = 0.25; % padding around axes in inches
-	seconds_per_inch = 60; % determines horizontal scale
-	PC_Hz_per_inch = 100; % determines vertical scale for PC
-	IN_Hz_per_inch = 20;
+	%seconds_per_inch = 300; % determines horizontal scale
+	%PC_Hz_per_inch = 200 %100; % determines vertical scale for PC
+	PC_to_IN_ratio = 5; % determines vertical scale for IN
+	PC_y_ticks = PC_Hz_per_inch / 10;
+	IN_y_ticks = PC_y_ticks / PC_to_IN_ratio;
 	seconds = timepoints(2) - timepoints(1); % total length of recording in seconds
 	window = 10000; % number of data points centered around current value
-	line_width = 1;
+	line_width = 0.5;
 
 	% gaussian smoothing of data
 	smoothINfr = smoothdata(rapidINfr, 'gaussian', window);
@@ -23,9 +44,8 @@ function RAR_plot_rapidsort_excerpt (firing_rates_file, timepoints)
 
 	% determine axis limits
 	smoothPCfr_max = max(smoothPCfr);
-	smoothINfr_max = max(smoothINfr);
-	PC_y_maximum = smoothPCfr_max + 10;
-	IN_y_maximum = PC_y_maximum / 5; 
+	PC_y_maximum = smoothPCfr_max + 20;
+	IN_y_maximum = PC_y_maximum / PC_to_IN_ratio; 
 	PC_ax_height = PC_y_maximum / PC_Hz_per_inch;
 	ax_width = seconds / seconds_per_inch;
 
@@ -57,7 +77,7 @@ function RAR_plot_rapidsort_excerpt (firing_rates_file, timepoints)
 	hold (ax, 'on');
 	yyaxis left
 	ylim([0,PC_y_maximum]);
-	yticks(0:10:PC_y_maximum);
+	yticks(0:PC_y_ticks:PC_y_maximum);
 	plot(rapidPCt(indexPC(:)), smoothPCfr(indexPC(:)), 'Color', 'blue', 'LineWidth', line_width);
 
 	% make horizontal scalebar
@@ -66,14 +86,12 @@ function RAR_plot_rapidsort_excerpt (firing_rates_file, timepoints)
 
 	yyaxis right
 	ylim([0,IN_y_maximum]);
-	yticks(0:2:IN_y_maximum);
+	yticks(0:IN_y_ticks:IN_y_maximum);
 	plot(rapidINt(indexIN(:)), smoothINfr(indexIN(:)), 'Color', 'red', 'LineWidth', line_width);
 
 	hold (ax, 'off');
 
-	str_timepoints = string(timepoints);
-	str_timepoints = strjoin(str_timepoints, '-');
-	output_file = strcat (firing_rates_file(1:end-4), "_excerpt_sec_", str_timepoints, ".pdf");
+	output_file = strcat (DMSO_firing_rates_file(1:end-4), "DMSO_GiGA1_concatenated_firing rates.pdf");
 
 	print('-painters', '-dpdf', fig, output_file);
 
