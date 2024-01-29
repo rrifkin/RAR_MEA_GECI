@@ -30,6 +30,7 @@ function RAR_plot_excerpt (input_file, sample_rate, channels, timepoints, vertic
 	vertical_increment = vertical_scale / channels_per_inch
 	pad = 0.25; % padding around axes in inches
 	line_width = 1;
+	colors = ["#EDB120", "#7E2F8E", "#77AC30", "#A2142F"];
 
 	% instantiate the figure and axes with names
 	fig = figure;
@@ -74,7 +75,7 @@ function RAR_plot_excerpt (input_file, sample_rate, channels, timepoints, vertic
 	% plot sequential traces in ascending order
 	for index = 1:num_channels 
 		y_offset = excerpt(index,:) + offset ;
-		plot(samples, y_offset, 'LineWidth', line_width);
+		plot(samples, y_offset, 'LineWidth', line_width, 'Color', colors(index));
         offset = offset + vertical_increment;
     end
 
@@ -89,7 +90,7 @@ function RAR_plot_excerpt (input_file, sample_rate, channels, timepoints, vertic
 
 	% determine output_file name
 	str_channels = string(channels);
-	str_channels = strcat(str_channels(1), '-', str_channels(end));
+	str_channels = strjoin(str_channels,',');
 	str_timepoints = string(timepoints);
 	str_timepoints = strjoin(str_timepoints, '-');
 	output_file = strcat (input_file(1:end-4), "_excerpt_ch_", str_channels, "_min_", str_timepoints, ".pdf");

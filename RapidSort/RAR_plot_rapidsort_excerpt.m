@@ -7,11 +7,12 @@ function RAR_plot_rapidsort_excerpt (firing_rates_file, timepoints)
 	% parameters
 	pad = 0.25; % padding around axes in inches
 	seconds_per_inch = 60; % determines horizontal scale
-	PC_Hz_per_inch = 100; % determines vertical scale for PC
-	IN_Hz_per_inch = 20;
+	PC_Hz_per_inch = 200; % determines vertical scale for PC
+	PC_to_IN_ratio = 5; % determines vertical scale for IN
+	PC_y_ticks = PC_Hz_per_inch / 10;
 	seconds = timepoints(2) - timepoints(1); % total length of recording in seconds
-	window = 10000; % number of data points centered around current value
-	line_width = 1;
+	window = 1000; % number of data points centered around current value
+	line_width = 0.5;
 
 	% gaussian smoothing of data
 	smoothINfr = smoothdata(rapidINfr, 'gaussian', window);
@@ -23,9 +24,9 @@ function RAR_plot_rapidsort_excerpt (firing_rates_file, timepoints)
 
 	% determine axis limits
 	smoothPCfr_max = max(smoothPCfr);
-	smoothINfr_max = max(smoothINfr);
-	PC_y_maximum = smoothPCfr_max + 10;
-	IN_y_maximum = PC_y_maximum / 5; 
+	PC_y_maximum = smoothPCfr_max + 20;
+	IN_y_ticks = PC_y_ticks / PC_to_IN_ratio;
+	IN_y_maximum = PC_y_maximum / PC_to_IN_ratio; 
 	PC_ax_height = PC_y_maximum / PC_Hz_per_inch;
 	ax_width = seconds / seconds_per_inch;
 
@@ -57,7 +58,7 @@ function RAR_plot_rapidsort_excerpt (firing_rates_file, timepoints)
 	hold (ax, 'on');
 	yyaxis left
 	ylim([0,PC_y_maximum]);
-	yticks(0:10:PC_y_maximum);
+	yticks(0:PC_y_ticks:PC_y_maximum);
 	plot(rapidPCt(indexPC(:)), smoothPCfr(indexPC(:)), 'Color', 'blue', 'LineWidth', line_width);
 
 	% make horizontal scalebar
@@ -66,7 +67,7 @@ function RAR_plot_rapidsort_excerpt (firing_rates_file, timepoints)
 
 	yyaxis right
 	ylim([0,IN_y_maximum]);
-	yticks(0:2:IN_y_maximum);
+	yticks(0:IN_y_ticks:IN_y_maximum);
 	plot(rapidINt(indexIN(:)), smoothINfr(indexIN(:)), 'Color', 'red', 'LineWidth', line_width);
 
 	hold (ax, 'off');
