@@ -3,10 +3,11 @@
 function RAR_linelength_heatmap (linelength_by_channels_file)
 
 	% parameters
-	clims = [0,2000]; % lower and upper limits to which heatmap is scaled
-	colorbarticks = [0, 400, 800, 1200, 1600, 2000];
-	colorbarticklabels = {'0','400','800','1200','1600','2000'};
-	fontsize = 20;
+	clims = [0,2000]; %[400,600]; % lower and upper limits to which heatmap is scaled
+	numticks = 6;
+	colorbarticks = linspace(clims(1), clims(2), numticks);
+	colorbarticklabels = string(colorbarticks); 
+	fontsize = 30;
 	colorbarstring = 'Line Length (µV/s)';
 	colormapname = 'hot';
 
