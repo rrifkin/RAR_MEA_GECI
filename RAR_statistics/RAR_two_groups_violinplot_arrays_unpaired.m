@@ -6,11 +6,11 @@ function RAR_two_groups_violinplot_arrays_unpaired (csv_file, units)
 	% remove NaN and optionally outliers (3 scaled median absolute deviations)
 	raw_data1 = raw_data.(1);
 	data1 = raw_data1(~isnan(raw_data1));
-	%data1 = rmoutliers(data1)
+	data1 = rmoutliers(data1)
 
 	raw_data2 = raw_data.(2);
 	data2 = raw_data2(~isnan(raw_data2));
-	%data2 = rmoutliers(data2)
+	data2 = rmoutliers(data2)
 
 	% capture basic descriptive statistics
 	n = [length(data1), length(data2)]
@@ -24,6 +24,7 @@ function RAR_two_groups_violinplot_arrays_unpaired (csv_file, units)
 	fig = figure(); 
 	ax = axes('linewidth',1, 'fontweight','bold', 'fontsize', 14);
 	pbaspect([1,1.5,1]);
+	fig.Visible = 'off';
 
 	% add data and labels to axes
 	hold (ax, 'on');

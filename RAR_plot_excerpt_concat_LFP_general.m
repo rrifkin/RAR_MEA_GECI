@@ -6,13 +6,13 @@
 % varargin = multiple .mat files in order
 % channels = vector of channels to plot, e.g. 1:4 
 
-function RAR_plot_excerpt_concat_LFP_general (channels, lines, varargin)
+function RAR_plot_excerpt_concat_LFP_general (channels, lines, seconds_per_inch, vertical_scale, varargin)
 
 	% parameters
-	vertical_scale = 15000 %5000 %; % units per inch, e.g. 10,000 uV per inch
+	% vertical_scale = 15000; % units per inch, e.g. 10,000 uV per inch
 	sample_rate = 2000; % LFP usually downsampled to 2000 Hz
 	offset = 0; % vertical offset, set to 0 for LFP
-	minutes_per_inch = 5; %10 % determines horizontal scale
+	% minutes_per_inch = 5; %10 % determines horizontal scale
 	channels_per_inch = 5; % determines vertical increment
 	vertical_increment = vertical_scale / channels_per_inch;
 	pad = 0.25; % padding around axes in inches
@@ -39,7 +39,8 @@ function RAR_plot_excerpt_concat_LFP_general (channels, lines, varargin)
     
 	str_channels = string(channels);
 	str_channels = strjoin(str_channels,',');
-	PDF_filename = strcat (PDF_filename, "_concat_excerpt_ch_", str_channels, "_general.pdf");
+	str_seconds_per_inch = string(seconds_per_inch);
+	PDF_filename = strcat (PDF_filename, "_concat_excerpt_ch_", str_channels, "_", str_seconds_per_inch, "_seconds_per_inch.pdf");
 
 	% Determine the length of the excerpted LFP data and make an array
 	% representing each sample
@@ -52,8 +53,8 @@ function RAR_plot_excerpt_concat_LFP_general (channels, lines, varargin)
 	ax = axes(fig);
 
 	% calculate x-axis properties
-	minutes = num_samples / (sample_rate * 60) ;
-	ax_width = minutes / minutes_per_inch; 
+	seconds = num_samples / sample_rate;
+	ax_width = seconds / seconds_per_inch; 
 
 	% calculate y-axis properties
 	y_minimum = -1 * vertical_increment;

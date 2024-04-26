@@ -4,7 +4,7 @@ function RAR_two_groups_violinplot_arrays_paired (csv_file, units)
 	names = categorical(raw_data.Properties.VariableNames);
 
 	% remove NaN and optionally outliers (3 scaled median absolute deviations)
-	%raw_data = rmoutliers(raw_data); % removes as row, for paired analysis
+	raw_data = rmoutliers(raw_data); % removes as row, for paired analysis
 	raw_data = rmmissing(raw_data); % removes any row containing NaN or missing data
 
 	data1 = raw_data.(1);
@@ -22,6 +22,7 @@ function RAR_two_groups_violinplot_arrays_paired (csv_file, units)
 	fig = figure(); 
 	ax = axes('linewidth',1, 'fontweight','bold', 'fontsize', 14);
 	pbaspect([1,1.5,1]);
+	fig.Visible = 'off';
 
 	% add data and labels to axes
 	hold (ax, 'on');
