@@ -1,9 +1,10 @@
-function RAR_plot_cross_correl (processed_spikes_file, epoch)
+function normalized_PC_bins = RAR_plot_cross_correl (processed_spikes_file, epoch)
 
 	% parameters
 	PC_threshold = 0; % probability threshold for PC
 	IN_threshold = 0; % probability threshold for IN, should be NEGATIVE (or zero)
 	window = 0.010; % time in seconds before and after spike
+	bin_width = 0.002; % bin width in seconds
 
 	% load spikes already processed by 'The Library'
 	load(processed_spikes_file, 'Library_processed_spikes');
@@ -58,14 +59,12 @@ function RAR_plot_cross_correl (processed_spikes_file, epoch)
 
 	% mean rapidsort population firing rates over epoch
 	mean_PC_firing_rate = mean(rapidPCfr);
-	mean_IN_firing_rate = mean(rapidINfr);
 
 	% get indexes of spikes meeting threshold and epoch criteria
 	PC_indexes = find(scaleProbs >= PC_threshold);
 	PC_times = keptSpikeTimes(PC_indexes);
 	PC_indexes = find(PC_times >= epoch(1) & PC_times <= epoch(2));
 	PC_times = PC_times(PC_indexes);
-	PC_num = numel(PC_times);
 
 	IN_indexes = find(scaleProbs <= IN_threshold);
 	IN_times = keptSpikeTimes(IN_indexes);
@@ -84,34 +83,18 @@ function RAR_plot_cross_correl (processed_spikes_file, epoch)
 		if ~isempty(PC_indexes_within_window)
 			PC_times_within_window = PC_times(PC_indexes_within_window);
 			PC_times_relative = PC_times_within_window - IN_times(i);
+
+			% delete PC and IN pair that happens at exact same time (probably artifact)
+			PC_times_relative(PC_times_relative == 0) = []; 
+
 			all_PC_times_relative = [all_PC_times_relative PC_times_relative];
 		end
 	end
 
-	histogram(all_PC_times_relative);
-	all_PC_num_within_window = numel(all_PC_times_relative);
-	normalized_PC_num_within_window = (all_PC_num_within_window / mean_PC_firing_rate) / IN_num
+	[PC_bins,~] = histcounts(all_PC_times_relative,-window:bin_width:window);
+	normalized_PC_bins = (PC_bins / mean_PC_firing_rate) / IN_num;
 
-	% PC-triggered IN
-	all_IN_times_relative = []; 
-
-	for j = 1:PC_num
-
-		start_time = PC_times(j) - window; 
-		stop_time = PC_times(j) + window; 
-		IN_indexes_within_window = find(IN_times >= start_time & IN_times <= stop_time);
-		if ~isempty(IN_indexes_within_window)
-			IN_times_within_window = IN_times(IN_indexes_within_window);
-			IN_times_relative = IN_times_within_window - PC_times(j);
-			all_IN_times_relative = [all_IN_times_relative IN_times_relative];
-		end
-	end
-
-	histogram(all_IN_times_relative);
-	all_IN_num_within_window = numel(all_IN_times_relative);
-	normalized_IN_num_within_window = (all_IN_num_within_window / mean_IN_firing_rate) / PC_num
-
-	isequal(all_PC_times_relative, all_IN_times_relative)
-
+	output_file = strcat(processed_spikes_file(1:end-20), 'IN-triggered_PC_bins.csv');
+	writematrix(normalized_PC_bins, output_file);
 
 end
